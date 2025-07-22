@@ -20,10 +20,10 @@ jobs:
             start: '2024-10-27'
           - builder: liquid_perps
             addr: '0x6d4e7f472e6a491b98cbeed327417e310ae8ce48'
-            start: '2025-06-22'
+            start: '2025-06-15'
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
-            start: '2025-03-23'
+            start: '2025-06-20'
           # …add one block per builder…
 
     name: Fetch ${{ matrix.builder }}
