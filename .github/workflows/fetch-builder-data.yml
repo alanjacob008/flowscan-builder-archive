@@ -27,7 +27,6 @@ jobs:
       - name: Cleanup old error JSON files per builder
         run: |
           while IFS=';' read -r NAME ADDR START_DATE; do
-            # skip empty lines
             [ -z "$NAME" ] && continue
             mkdir -p data/$NAME
             FAIL_FILE="data/$NAME/failed_dates.json"
@@ -35,9 +34,9 @@ jobs:
 
             for f in data/$NAME/*.json; do
               BASENAME=$(basename "$f")
-              # skip meta files
               [ "$BASENAME" = "failed_dates.json" ] && continue
               [ "$BASENAME" = "summary.json" ] && continue
+              [ ! -f "$f" ] && continue
 
               DS=${BASENAME%.json}
               if jq -e 'has("error")' "$f" >/dev/null 2>&1; then
@@ -82,16 +81,19 @@ jobs:
               current=$(date -d "$current + 1 day" +%Y-%m-%d)
             done
 
-            # Compile summary.json only if there are date files
+            # Compile summary.json only if date files exist
             if ls data/$NAME/[0-9]*.json 1> /dev/null 2>&1; then
               echo "Compiling summary.json for $NAME"
-              jq -s '[.[] | (.userAggregations // [])[]] \
-                     | group_by(.user) \
-                     | map({ user_address: .[0].user, \
-                             total_builder_fee_usd: map(.builder_fee)|add, \
-                             total_volume: map(.total_volume)|add, \
-                             total_trades: map(.count)|add })' \
-                data/$NAME/[0-9]*.json > data/$NAME/summary.json
+              jq -s '
+                [.[] | (.userAggregations // [])[]]
+                | group_by(.user)
+                | map({
+                    user_address: .[0].user,
+                    total_builder_fee_usd: (map(.builder_fee) | add),
+                    total_volume: (map(.total_volume) | add),
+                    total_trades: (map(.count) | add)
+                  })
+              ' data/$NAME/[0-9]*.json > data/$NAME/summary.json
             else
               echo "No date files for $NAME; skipping summary.json"
             fi
