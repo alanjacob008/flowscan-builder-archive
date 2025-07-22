@@ -1,16 +1,17 @@
+permissions:
+  contents: write
+
 name: Fetch FlowScan builder‑fills archive
 
-# runs every day at 00:00 UTC
 on:
-  workflow_dispatch:        # ← this enables the “Run workflow” button
+  workflow_dispatch:    # allows manual runs
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # daily at 00:00 UTC
 
 env:
   # one line per builder: BuilderName;BuilderAddress;StartDate(YYYY-MM-DD)
   BUILDERS: |
     pvp_dot_trade;0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af;2024-10-27
-  #  BuilderB;0xab29499b6b4da18e26bfd10a053b0cd3ea0f1814;2025-01-01
 
 jobs:
   fetch:
@@ -19,57 +20,65 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      - name: Fetch missing JSONs for each builder
+      - name: Cleanup old error JSON files
+        run: |
+          # remove any stray root-level
+          rm -f data/failed_dates.json
+
+          while IFS=';' read -r NAME ADDR START_DATE; do
+            mkdir -p data/$NAME
+            FAIL_FILE="data/$NAME/failed_dates.json"
+            [ ! -f "$FAIL_FILE" ] && echo '[]' > "$FAIL_FILE"
+
+            for f in data/$NAME/*.json; do
+              [ "$(basename "$f")" = "failed_dates.json" ] && continue
+              [ ! -f "$f" ] && continue
+
+              DS=$(basename "$f" .json)
+              if jq -e 'has("error")' "$f" >/dev/null 2>&1; then
+                echo "Deleting bad file $NAME/$DS.json"
+                rm "$f"
+                tmp=$(mktemp)
+                jq --arg d "$DS" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
+              fi
+            done
+          done <<< "$BUILDERS"
+
+      - name: Fetch daily data for each builder
         run: |
           DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
 
           while IFS=';' read -r NAME ADDR START_DATE; do
-            echo "→ $NAME ($ADDR) from $START_DATE → $DATE_YEST"
             mkdir -p data/$NAME
-
-            # ensure failed_dates.json exists
             FAIL_FILE="data/$NAME/failed_dates.json"
-            if [ ! -f "$FAIL_FILE" ]; then
-              echo '[]' > "$FAIL_FILE"
-            fi
-
             current="$START_DATE"
-            while [ "$(date -d "$current" +%Y-%m-%d)" != \
-                  "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
+
+            while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
               DS=$(date -d "$current" +%Y%m%d)
               OUTFILE="data/$NAME/$DS.json"
+              RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$DS")
 
-              if [ -f "$OUTFILE" ]; then
-                echo "   • skip $DS (already have it)"
+              if echo "$RAW" | jq 'has("error")' | grep -q true; then
+                echo "Error for $NAME/$DS, logging"
+                rm -f "$OUTFILE"
+                tmp=$(mktemp)
+                jq --arg d "$DS" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
               else
-                echo "   • fetch $DS"
-                RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$DS")
-
-                # detect error key
-                if echo "$RAW" | jq 'has("error")' | grep -q true; then
-                  echo "     ⚠️ error for $DS – logging"
-                  # append to failed_dates.json if not already there
-                  tmp=$(mktemp)
-                  jq --arg d "$DS" \
-                     'if index($d)==null then . + [$d] else . end' \
-                     "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
-                else
-                  # valid payload → write it
+                if [ ! -f "$OUTFILE" ]; then
+                  echo "Saving $NAME/$DS.json"
                   echo "$RAW" > "$OUTFILE"
                 fi
+                tmp=$(mktemp)
+                jq --arg d "$DS" 'map(select(. != $d))' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
               fi
 
               current=$(date -d "$current + 1 day" +%Y-%m-%d)
             done
           done <<< "$BUILDERS"
 
-
-      - name: Commit new data files
+      - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --quiet --cached || (
-            git commit -m "Add missing builder‑fills for $(date -d "yesterday" +%Y%m%d)"
-            git push
-          )
+          git diff --quiet --cached || (git commit -m "Update builder‑fills data for $(date -d "yesterday" +%Y%m%d)" && git push)
