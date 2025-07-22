@@ -23,7 +23,7 @@ jobs:
             start: '2025-06-22'
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
-            start: '2025-06-23'
+            start: '2025-03-23'
           # …add one block per builder…
 
     name: Fetch ${{ matrix.builder }}
@@ -45,30 +45,25 @@ jobs:
           set -e
           NAME=${{ matrix.builder }}
           ADDR="${{ matrix.addr }}"
-          # Force lowercase for API
-          ADDR=${ADDR,,}
+          ADDR=${ADDR,,}   # lowercase for API
           START_DATE=${{ matrix.start }}
           YEST=$(date -d "yesterday" +%Y-%m-%d)
           FAIL="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
-          # 1) Download daily JSONs
+          # 1) Download per-day JSONs
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
             RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
             OUT="data/$NAME/$D.json"
-
             if echo "$RAW" | jq -e 'has("error")' >/dev/null; then
               echo "❌ API error for $NAME/$D"
               rm -f "$OUT"
-              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" \
-                > tmp && mv tmp "$FAIL"
+              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
             else
               [ -f "$OUT" ] || echo "$RAW" > "$OUT"
-              jq --arg d "$D" 'map(select(. != $d))' "$FAIL" \
-                > tmp && mv tmp "$FAIL"
+              jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
             fi
-
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
@@ -80,8 +75,7 @@ jobs:
                   volume:  .volume,
                   tradecount: .count,
                   uniqueusers: .uniqueUsers }
-            ]' data/$NAME/[0-9]*.json \
-              > data/$NAME/daily_summary.json
+            ]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
           else
             echo '[]' > data/$NAME/daily_summary.json
           fi
@@ -91,19 +85,16 @@ jobs:
             TMP="data/$NAME/_all.json"; echo '[]' > "$TMP"
             for f in data/$NAME/[0-9]*.json; do
               dt=${f##*/}; dt=${dt%.json}
-              # plain .userAggregations (always present in good data)
               jq --arg date "$dt" '[ .userAggregations[] | . + {date:$date} ]' "$f" > tmp1
               jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
             done
-
             jq '[.[]] | group_by(.user) | map({
-                 user_address:         .[0].user,
+                 user_address: .[0].user,
                  total_builder_fee_usd: (map(.builder_fee)|add),
-                 total_volume:         (map(.total_volume)|add),
-                 total_trades:         (map(.count)|add),
-                 active_days:          (map(select(.count>0)|.date)|unique|length)
+                 total_volume: (map(.total_volume)|add),
+                 total_trades: (map(.count)|add),
+                 active_days: (map(select(.count>0)|.date)|unique|length)
                })' "$TMP" > data/$NAME/user_data.json
-
             rm tmp1 "$TMP"
           else
             echo '[]' > data/$NAME/user_data.json
@@ -117,8 +108,7 @@ jobs:
             while [ $(( (CNT-1)*CHUNK )) -lt $TOTAL ]; do
               S=$(( (CNT-1)*CHUNK )); E=$((S+CHUNK))
               IDX=$(printf "%04d" $CNT)
-              jq ".[$S:$E]" data/$NAME/user_data.json \
-                > data/$NAME/user_data_$IDX.json
+              jq ".[$S:$E]" data/$NAME/user_data.json > data/$NAME/user_data_$IDX.json
               CNT=$((CNT+1))
             done
             rm data/$NAME/user_data.json
@@ -128,6 +118,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git pull --rebase origin main
           git add data/${{ matrix.builder }}
           git diff --quiet --cached || \
             (git commit -m "Update ${{ matrix.builder }} for $(date -d 'yesterday' +%Y%m%d)" && git push)
