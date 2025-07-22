@@ -51,7 +51,7 @@ jobs:
           FAIL="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
-          # 1) Download per-day JSONs
+          # 1) Download daily JSONs
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
             RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
@@ -89,11 +89,11 @@ jobs:
               jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
             done
             jq '[.[]] | group_by(.user) | map({
-                 user_address: .[0].user,
+                 user_address:         .[0].user,
                  total_builder_fee_usd: (map(.builder_fee)|add),
-                 total_volume: (map(.total_volume)|add),
-                 total_trades: (map(.count)|add),
-                 active_days: (map(select(.count>0)|.date)|unique|length)
+                 total_volume:         (map(.total_volume)|add),
+                 total_trades:         (map(.count)|add),
+                 active_days:          (map(select(.count>0)|.date)|unique|length)
                })' "$TMP" > data/$NAME/user_data.json
             rm tmp1 "$TMP"
           else
@@ -118,8 +118,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
+          # stash local changes
+          git stash push --include-untracked --quiet || true
+          # pull & rebase latest
           git pull --rebase origin main
+          # re‑apply our files
+          git stash pop --quiet || true
           git add data/${{ matrix.builder }}
           git diff --quiet --cached || \
             (git commit -m "Update ${{ matrix.builder }} for $(date -d 'yesterday' +%Y%m%d)" && git push)
