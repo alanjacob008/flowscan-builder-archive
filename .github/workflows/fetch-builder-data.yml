@@ -6,134 +6,108 @@ name: Fetch FlowScan builder‑fills archive
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # every day at midnight UTC
-
-env:
-  # one line per builder: BuilderName;BuilderAddress;StartDate(YYYY-MM-DD)
-  BUILDERS: |
-    pvp_dot_trade;0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af;2024-10-27
+    - cron: '0 0 * * *'
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - builder: pvp_dot_trade
+            addr: 0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af
+            start: '2024-10-27'
+          - builder: liquid_perps
+            addr: 0x6d4e7f472e6a491b98cbeed327417e310ae8ce48
+            start: '2025-06-22'
+          - builder: pocket_pro
+            addr: 0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C
+            start: '2025-03-23'
+          # …add one block per builder…
+
+    name: Fetch ${{ matrix.builder }}
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      - name: Purge stray root‑level JSON files
-        run: rm -f data/*.json
+      - name: Purge stray JSONs for this builder
+        run: rm -f data/${{ matrix.builder }}/*.json
 
-      - name: Cleanup old error JSON files per builder
+      - name: Ensure error‑log exists
         run: |
-          while IFS=';' read -r NAME ADDR START_DATE; do
-            [ -z "$NAME" ] && continue
-            mkdir -p data/$NAME
-            FAIL_FILE="data/$NAME/failed_dates.json"
-            [ ! -f "$FAIL_FILE" ] && echo '[]' > "$FAIL_FILE"
-            for f in data/$NAME/*.json; do
-              BASENAME=$(basename "$f")
-              [[ "$BASENAME" =~ ^(failed_dates|daily_summary|user_data)(_.*)?\.json$ ]] && continue
-              [ ! -f "$f" ] && continue
-              DS=${BASENAME%.json}
-              if jq -e 'has("error")' "$f" >/dev/null 2>&1; then
-                echo "Deleting bad file $NAME/$DS.json"
-                rm -f "$f"
-                tmp=$(mktemp)
-                jq --arg d "$DS" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
-              fi
-            done
-          done <<< "$BUILDERS"
+          mkdir -p data/${{ matrix.builder }}
+          FAIL="data/${{ matrix.builder }}/failed_dates.json"
+          [ -f "$FAIL" ] || echo '[]' > "$FAIL"
 
-      - name: Fetch daily JSONs, build user_data & daily_summary
+      - name: Fetch & build for ${{ matrix.builder }}
         run: |
-          DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
+          NAME=${{ matrix.builder }}
+          ADDR=${{ matrix.addr }}
+          START_DATE=${{ matrix.start }}
+          YEST=$(date -d "yesterday" +%Y-%m-%d)
+          FAIL_FILE="data/$NAME/failed_dates.json"
+          current="$START_DATE"
 
-          while IFS=';' read -r NAME ADDR START_DATE; do
-            [ -z "$NAME" ] && continue
-            mkdir -p data/$NAME
-            FAIL_FILE="data/$NAME/failed_dates.json"
-            current="$START_DATE"
+          # 1) Download per-day JSONs
+          while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
+            D=$(date -d "$current" +%Y%m%d)
+            RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+            OUT="data/$NAME/$D.json"
 
-            # 1) Fetch per-day JSONs
-            while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
-              DS=$(date -d "$current" +%Y%m%d)
-              OUTFILE="data/$NAME/$DS.json"
-              RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$DS")
-
-              if echo "$RAW" | jq 'has("error")' | grep -q true; then
-                echo "Error for $NAME/$DS, logging"
-                rm -f "$OUTFILE"
-                tmp=$(mktemp)
-                jq --arg d "$DS" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
-              else
-                [ ! -f "$OUTFILE" ] && echo "$RAW" > "$OUTFILE"
-                tmp=$(mktemp)
-                jq --arg d "$DS" 'map(select(. != $d))' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
-              fi
-
-              current=$(date -d "$current + 1 day" +%Y-%m-%d)
-            done
-
-            # 2) Build daily_summary.json
-            echo "Compiling daily_summary.json for $NAME"
-            jq -n '[inputs
-              | { date: (input_filename
-                         | capture(".*/(?<d>[0-9]{8})\\.json$").d),
-                  revenue: .revenue,
-                  volume: .volume,
-                  tradecount: .count,
-                  uniqueusers: .uniqueUsers }
-            ]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
-
-            # 3) Build user_data.json with active_days via merge loop
-            echo "Compiling user_data.json for $NAME"
-            TMP_ALL="data/$NAME/_user_data_all.json"
-            echo '[]' > "$TMP_ALL"
-            for file in data/$NAME/[0-9]*.json; do
-              date=$(basename "$file" .json)
-              jq --arg date "$date" '
-                [ (.userAggregations? // [])[] | . + { date: $date } ]
-              ' "$file" > tmp1.json
-              jq -s '.[0] + .[1]' "$TMP_ALL" tmp1.json > tmp2.json && mv tmp2.json "$TMP_ALL"
-            done
-
-            # aggregate & compute active_days
-            jq '
-              [ .[] ]
-              | group_by(.user)
-              | map({
-                  user_address:         .[0].user,
-                  total_builder_fee_usd: (map(.builder_fee)|add),
-                  total_volume:         (map(.total_volume)|add),
-                  total_trades:         (map(.count)|add),
-                  active_days:          (map(select(.count > 0) | .date) | unique | length)
-                })
-            ' "$TMP_ALL" > data/$NAME/user_data.json
-            rm "$TMP_ALL" tmp1.json
-
-            # 4) Split user_data.json into 3MB chunks if necessary
-            SIZE=$(stat -c%s data/$NAME/user_data.json)
-            if [ $SIZE -gt $((3*1024*1024)) ]; then
-              echo "user_data.json too large; splitting into chunks"
-              TOTAL=$(jq length data/$NAME/user_data.json)
-              CHUNK=5000
-              COUNT=1
-              while [ $(( (COUNT-1)*CHUNK )) -lt $TOTAL ]; do
-                START=$(( (COUNT-1)*CHUNK ))
-                END=$(( START + CHUNK ))
-                NUM=$(printf "%04d" $COUNT)
-                jq ".[$START:$END]" data/$NAME/user_data.json > data/$NAME/user_data_$NUM.json
-                COUNT=$((COUNT+1))
-              done
-              rm data/$NAME/user_data.json
+            if echo "$RAW" | jq 'has("error")' | grep -q true; then
+              rm -f "$OUT"
+              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
+            else
+              [ -f "$OUT" ] || echo "$RAW" > "$OUT"
+              jq --arg d "$D" 'map(select(. != $d))' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
             fi
 
-          done <<< "$BUILDERS"
+            current=$(date -d "$current + 1 day" +%Y-%m-%d)
+          done
 
-      - name: Commit and push changes
+          # 2) daily_summary.json
+          jq -n '[inputs
+            | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
+                revenue: .revenue,
+                volume:  .volume,
+                tradecount: .count,
+                uniqueusers: .uniqueUsers }
+          ]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
+
+          # 3) user_data.json with active_days
+          TMP="data/$NAME/_all.json"; echo '[]' > "$TMP"
+          for f in data/$NAME/[0-9]*.json; do
+            dt=${f##*/}; dt=${dt%.json}
+            jq --arg date "$dt" '[(.userAggregations?//[])[] | . + {date:$date}]' "$f" > tmp1
+            jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
+          done
+          jq '[.[]] | group_by(.user) | map({
+               user_address: .[0].user,
+               total_builder_fee_usd: (map(.builder_fee)|add),
+               total_volume: (map(.total_volume)|add),
+               total_trades: (map(.count)|add),
+               active_days: (map(select(.count>0)|.date)|unique|length)
+             })' "$TMP" > data/$NAME/user_data.json
+          rm tmp1 "$TMP"
+
+          # 4) Split user_data.json if >3 MB
+          SIZE=$(stat -c%s data/$NAME/user_data.json)
+          if [ "$SIZE" -gt $((3*1024*1024)) ]; then
+            TOTAL=$(jq length data/$NAME/user_data.json)
+            CHUNK=5000; CNT=1
+            while [ $(( (CNT-1)*CHUNK )) -lt $TOTAL ]; do
+              S=$(( (CNT-1)*CHUNK )); E=$((S+CHUNK))
+              IDX=$(printf "%04d" $CNT)
+              jq ".[$S:$E]" data/$NAME/user_data.json > data/$NAME/user_data_$IDX.json
+              CNT=$((CNT+1))
+            done
+            rm data/$NAME/user_data.json
+          fi
+
+      - name: Commit ${{ matrix.builder }} data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data/${{ matrix.builder }}
           git diff --quiet --cached || \
-            (git commit -m "Update builder‑fills for $(date -d 'yesterday' +%Y%m%d)" && git push)
+            (git commit -m "Update ${{ matrix.builder }} for $(date -d 'yesterday' +%Y%m%d)" && git push)
