@@ -20,20 +20,19 @@ jobs:
           - builder: liquid_perps
             addr: '0x6d4e7f472e6a491b98cbeed327417e310ae8ce48'
             start: '2025-06-22'
-          - builder: 'pocket_pro'
+          - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
             start: '2025-03-23'
-          # …add one block per builder…
+          # …and so on for all your builders…
 
     name: Fetch ${{ matrix.builder }}
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Purge stray JSONs for this builder
+      - name: Purge stray JSONs
         run: rm -f data/${{ matrix.builder }}/*.json
 
-      - name: Ensure error‑log exists
+      - name: Ensure failed_dates.json exists
         run: |
           mkdir -p data/${{ matrix.builder }}
           FAIL="data/${{ matrix.builder }}/failed_dates.json"
@@ -48,12 +47,11 @@ jobs:
           FAIL_FILE="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
-          # 1) Download per-day JSONs
+          # 1) Download daily JSONs
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
             RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
             OUT="data/$NAME/$D.json"
-
             if echo "$RAW" | jq 'has("error")' | grep -q true; then
               rm -f "$OUT"
               jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
@@ -61,7 +59,6 @@ jobs:
               [ -f "$OUT" ] || echo "$RAW" > "$OUT"
               jq --arg d "$D" 'map(select(. != $d))' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
             fi
-
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
@@ -90,7 +87,7 @@ jobs:
              })' "$TMP" > data/$NAME/user_data.json
           rm tmp1 "$TMP"
 
-          # 4) Split user_data.json if >3 MB
+          # 4) Split if >3 MB
           SIZE=$(stat -c%s data/$NAME/user_data.json)
           if [ "$SIZE" -gt $((3*1024*1024)) ]; then
             TOTAL=$(jq length data/$NAME/user_data.json)
