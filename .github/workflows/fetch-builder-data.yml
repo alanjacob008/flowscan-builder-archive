@@ -19,7 +19,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-            - name: Fetch missing JSONs for each builder
+      - name: Fetch missing JSONs for each builder
         run: |
           DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
 
