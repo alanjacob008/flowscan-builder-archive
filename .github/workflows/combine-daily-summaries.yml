@@ -1,0 +1,57 @@
+permissions:
+  contents: write
+
+name: Combine daily_summary across builders
+
+on:
+  schedule:
+    - cron: '2 0 * * *'  # daily at 00:02 UTC
+  workflow_dispatch:
+
+jobs:
+  combine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Gather all daily_summary.json files
+        run: |
+          set -e
+
+          OUT_DIR="data/combined"
+          OUT_FILE="$OUT_DIR/daily_summary_all.json"
+
+          mkdir -p "$OUT_DIR"
+          rm -f "$OUT_FILE"
+
+          TMPDIR=$(mktemp -d)
+
+          # for each builder folder under data/, if daily_summary exists:
+          for ds in data/*/daily_summary.json; do
+            [ -f "$ds" ] || continue
+            # extract builder name from path, e.g. data/pvp_dot_trade/...
+            builder=$(basename "$(dirname "$ds")")
+            # produce a small JSON array with builder field
+            jq --arg b "$builder" '
+              [ .[] | . + { builder: $b } ]
+            ' "$ds" > "$TMPDIR/${builder}.json"
+          done
+
+          # now slurp all into one big array
+          jq -s 'add' "$TMPDIR"/*.json > "$OUT_FILE"
+
+          # clean up
+          rm -rf "$TMPDIR"
+
+      - name: Commit combined file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # stash/pull/re‑apply to avoid conflicts
+          git stash push --include-untracked --quiet || true
+          git pull --rebase origin main
+          git stash pop --quiet || true
+
+          git add data/combined/daily_summary_all.json
+          git diff --quiet --cached || \
+            (git commit -m "Update combined daily_summary (for $(date -d 'yesterday' +%Y%m%d))" && git push)
