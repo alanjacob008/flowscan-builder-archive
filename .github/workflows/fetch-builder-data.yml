@@ -20,8 +20,9 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      - name: Purge stray root‐level JSON files
-        run: rm -f data/*.json
+      - name: Purge stray root-level JSON files
+        run: |
+          rm -f data/*.json
 
       - name: Cleanup old error JSON files per builder
         run: |
@@ -33,7 +34,7 @@ jobs:
 
             for f in data/$NAME/*.json; do
               BASENAME=$(basename "$f")
-              # skip our meta files
+              # skip meta files
               [[ "$BASENAME" =~ ^(failed_dates|daily_summary|user_data)(_.*)?\.json$ ]] && continue
               [ ! -f "$f" ] && continue
 
@@ -57,7 +58,7 @@ jobs:
             FAIL_FILE="data/$NAME/failed_dates.json"
             current="$START_DATE"
 
-            # 1) Fetch per-day JSONs
+            # Fetch per-day JSONs
             while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
               DS=$(date -d "$current" +%Y%m%d)
               OUTFILE="data/$NAME/$DS.json"
@@ -77,45 +78,40 @@ jobs:
               current=$(date -d "$current + 1 day" +%Y-%m-%d)
             done
 
-            # 2) Build daily_summary.json
-            echo " → Building daily_summary.json for $NAME"
-            jq -s '
-              map(
-                . as $day
-                | ($DAYFILE | split("/") | last | rtrimstr(".json")) as $d
-                | { date: $d,
-                    revenue: $day.revenue,
-                    volume: $day.volume,
-                    tradecount: $day.count,
-                    uniqueusers: $day.uniqueUsers
-                  }
-              )
-            ' data/$NAME/[0-9]*.json \
-            --arg DAYFILE "data/$NAME" > data/$NAME/daily_summary.json
+            # Build daily_summary.json
+            echo "Compiling daily_summary.json for $NAME"
+            jq -n '
+              [ inputs
+                | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
+                    revenue: .revenue,
+                    volume: .volume,
+                    tradecount: .count,
+                    uniqueusers: .uniqueUsers }
+              ]
+            ' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
 
-            # 3) Build user_data.json (pre‑aggregated per user)
-            echo " → Building user_data.json for $NAME"
+            # Build user_data.json (pre-aggregated per user)
+            echo "Compiling user_data.json for $NAME"
             jq -s '
               [ .[] | (.userAggregations // [])[] ]
               | group_by(.user)
               | map({
                   user_address: .[0].user,
                   total_builder_fee_usd: (map(.builder_fee) | add),
-                  total_volume:            (map(.total_volume) | add),
-                  total_trades:            (map(.count) | add)
+                  total_volume: (map(.total_volume) | add),
+                  total_trades: (map(.count) | add)
                 })
             ' data/$NAME/[0-9]*.json > data/$NAME/user_data.json
 
-            # 4) If user_data.json > 3MB, split into chunks
+            # Split user_data.json if >3MB
             SIZE=$(stat -c%s data/$NAME/user_data.json)
             if [ $SIZE -gt $((3*1024*1024)) ]; then
-              echo " → user_data.json >3MB, splitting..."
+              echo "user_data.json too large; splitting into chunks"
               TOTAL=$(jq length data/$NAME/user_data.json)
               CHUNK=5000
               for ((i=0; i<$TOTAL; i+=CHUNK)); do
                 j=$((i+CHUNK))
-                jq ".[$i:$j]" data/$NAME/user_data.json \
-                  > data/$NAME/user_data_${i}.json
+                jq ".[$i:$j]" data/$NAME/user_data.json > data/$NAME/user_data_${i}.json
               done
               rm data/$NAME/user_data.json
             fi
@@ -127,4 +123,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --quiet --cached || (git commit -m "Update builder‑fills data for $(date -d \"yesterday\" +%Y%m%d)\" && git push)
+          git diff --quiet --cached || (git commit -m "Update builder‑fills data for $(date -d \"yesterday\" +%Y%m%d)" && git push)
