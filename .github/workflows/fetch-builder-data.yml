@@ -20,9 +20,8 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      - name: Purge stray root-level JSON files
-        run: |
-          rm -f data/*.json
+      - name: Purge stray root‐level JSON files
+        run: rm -f data/*.json
 
       - name: Cleanup old error JSON files per builder
         run: |
@@ -34,8 +33,8 @@ jobs:
 
             for f in data/$NAME/*.json; do
               BASENAME=$(basename "$f")
-              [ "$BASENAME" = "failed_dates.json" ] && continue
-              [ "$BASENAME" = "summary.json" ] && continue
+              # skip our meta files
+              [[ "$BASENAME" =~ ^(failed_dates|daily_summary|user_data)(_.*)?\.json$ ]] && continue
               [ ! -f "$f" ] && continue
 
               DS=${BASENAME%.json}
@@ -48,7 +47,7 @@ jobs:
             done
           done <<< "$BUILDERS"
 
-      - name: Fetch daily data and compile summary.json per builder
+      - name: Fetch daily JSONs, build user_data & daily_summary
         run: |
           DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
 
@@ -58,7 +57,7 @@ jobs:
             FAIL_FILE="data/$NAME/failed_dates.json"
             current="$START_DATE"
 
-            # Fetch per-day JSONs
+            # 1) Fetch per-day JSONs
             while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
               DS=$(date -d "$current" +%Y%m%d)
               OUTFILE="data/$NAME/$DS.json"
@@ -70,10 +69,7 @@ jobs:
                 tmp=$(mktemp)
                 jq --arg d "$DS" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
               else
-                if [ ! -f "$OUTFILE" ]; then
-                  echo "Saving $NAME/$DS.json"
-                  echo "$RAW" > "$OUTFILE"
-                fi
+                [ ! -f "$OUTFILE" ] && echo "$RAW" > "$OUTFILE"
                 tmp=$(mktemp)
                 jq --arg d "$DS" 'map(select(. != $d))' "$FAIL_FILE" > "$tmp" && mv "$tmp" "$FAIL_FILE"
               fi
@@ -81,22 +77,49 @@ jobs:
               current=$(date -d "$current + 1 day" +%Y-%m-%d)
             done
 
-            # Compile summary.json only if date files exist
-            if ls data/$NAME/[0-9]*.json 1> /dev/null 2>&1; then
-              echo "Compiling summary.json for $NAME"
-              jq -s '
-                [.[] | (.userAggregations // [])[]]
-                | group_by(.user)
-                | map({
-                    user_address: .[0].user,
-                    total_builder_fee_usd: (map(.builder_fee) | add),
-                    total_volume: (map(.total_volume) | add),
-                    total_trades: (map(.count) | add)
-                  })
-              ' data/$NAME/[0-9]*.json > data/$NAME/summary.json
-            else
-              echo "No date files for $NAME; skipping summary.json"
+            # 2) Build daily_summary.json
+            echo " → Building daily_summary.json for $NAME"
+            jq -s '
+              map(
+                . as $day
+                | ($DAYFILE | split("/") | last | rtrimstr(".json")) as $d
+                | { date: $d,
+                    revenue: $day.revenue,
+                    volume: $day.volume,
+                    tradecount: $day.count,
+                    uniqueusers: $day.uniqueUsers
+                  }
+              )
+            ' data/$NAME/[0-9]*.json \
+            --arg DAYFILE "data/$NAME" > data/$NAME/daily_summary.json
+
+            # 3) Build user_data.json (pre‑aggregated per user)
+            echo " → Building user_data.json for $NAME"
+            jq -s '
+              [ .[] | (.userAggregations // [])[] ]
+              | group_by(.user)
+              | map({
+                  user_address: .[0].user,
+                  total_builder_fee_usd: (map(.builder_fee) | add),
+                  total_volume:            (map(.total_volume) | add),
+                  total_trades:            (map(.count) | add)
+                })
+            ' data/$NAME/[0-9]*.json > data/$NAME/user_data.json
+
+            # 4) If user_data.json > 3MB, split into chunks
+            SIZE=$(stat -c%s data/$NAME/user_data.json)
+            if [ $SIZE -gt $((3*1024*1024)) ]; then
+              echo " → user_data.json >3MB, splitting..."
+              TOTAL=$(jq length data/$NAME/user_data.json)
+              CHUNK=5000
+              for ((i=0; i<$TOTAL; i+=CHUNK)); do
+                j=$((i+CHUNK))
+                jq ".[$i:$j]" data/$NAME/user_data.json \
+                  > data/$NAME/user_data_${i}.json
+              done
+              rm data/$NAME/user_data.json
             fi
+
           done <<< "$BUILDERS"
 
       - name: Commit and push changes
@@ -104,4 +127,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --quiet --cached || (git commit -m "Update builder‑fills data for $(date -d "yesterday" +%Y%m%d)" && git push)
+          git diff --quiet --cached || (git commit -m "Update builder‑fills data for $(date -d \"yesterday\" +%Y%m%d)\" && git push)
