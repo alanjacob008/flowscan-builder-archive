@@ -21,8 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Purge stray root-level JSON files
-        run: |
-          rm -f data/*.json
+        run: rm -f data/*.json
 
       - name: Cleanup old error JSON files per builder
         run: |
@@ -80,38 +79,33 @@ jobs:
 
             # Build daily_summary.json
             echo "Compiling daily_summary.json for $NAME"
-            jq -n '
-              [ inputs
-                | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
-                    revenue: .revenue,
-                    volume: .volume,
-                    tradecount: .count,
-                    uniqueusers: .uniqueUsers }
-              ]
-            ' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
+            jq -n '[inputs | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d), revenue: .revenue, volume: .volume, tradecount: .count, uniqueusers: .uniqueUsers }]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
 
-            # Build user_data.json (pre-aggregated per user)
+            # Build user_data.json with active_days
             echo "Compiling user_data.json for $NAME"
-            jq -s '
-              [ .[] | (.userAggregations // [])[] ]
-              | group_by(.user)
-              | map({
-                  user_address: .[0].user,
-                  total_builder_fee_usd: (map(.builder_fee) | add),
-                  total_volume: (map(.total_volume) | add),
-                  total_trades: (map(.count) | add)
-                })
-            ' data/$NAME/[0-9]*.json > data/$NAME/user_data.json
+            TMP_ALL="data/$NAME/_user_data_all.json"
+            echo '[]' > "$TMP_ALL"
+            for file in data/$NAME/[0-9]*.json; do
+              date=$(basename "$file" .json)
+              jq --arg date "$date" '[.userAggregations? // [] | map(. + {date: $date})]' "$file" > tmp.json
+              jq -s '.[0] + .[1]' "$TMP_ALL" tmp.json > tmp2.json && mv tmp2.json "$TMP_ALL"
+            done
+            jq '[.[]] | group_by(.user) | map({ user_address: .[0].user, total_builder_fee_usd: (map(.builder_fee)|add), total_volume: (map(.total_volume)|add), total_trades: (map(.count)|add), active_days: (map(select(.count>0)|.date)|unique|length) })' "$TMP_ALL" > data/$NAME/user_data.json
+            rm "$TMP_ALL"
 
-            # Split user_data.json if >3MB
+            # Split user_data.json into 3MB chunks with sequential names
             SIZE=$(stat -c%s data/$NAME/user_data.json)
             if [ $SIZE -gt $((3*1024*1024)) ]; then
               echo "user_data.json too large; splitting into chunks"
               TOTAL=$(jq length data/$NAME/user_data.json)
               CHUNK=5000
-              for ((i=0; i<$TOTAL; i+=CHUNK)); do
-                j=$((i+CHUNK))
-                jq ".[$i:$j]" data/$NAME/user_data.json > data/$NAME/user_data_${i}.json
+              COUNTER=1
+              while [ $(( (COUNTER-1) * CHUNK )) -lt $TOTAL ]; do
+                START=$(( (COUNTER-1) * CHUNK ))
+                END=$(( START + CHUNK ))
+                LINENUM=$(printf "%04d" $COUNTER)
+                jq ".[$START:$END]" data/$NAME/user_data.json > data/$NAME/user_data_$LINENUM.json
+                COUNTER=$((COUNTER+1))
               done
               rm data/$NAME/user_data.json
             fi
