@@ -24,6 +24,61 @@ jobs:
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
             start: '2025-06-20'
+          - builder: phantom
+            addr: '0xb84168cf3be63c6b8dad05ff5d755e97432ff80b'
+            start: '22025-06-12'
+          - builder: okto
+            addr: '0x05984fd37db96dc2a11a09519a8def556e80590b'
+            start: '2024-11-04'
+          - builder: axiom
+            addr: '0x1cc34f6af34653c515b47a83e1de70ba9b0cda1f'
+            start: '2025-01-20'
+          - builder: insilico
+            addr: '0x2868fc0d9786a740b491577a43502259efa78a39'
+            start: '2024-11-24'
+          - builder: kinto
+            addr: '0xc1f4d15c16a1f3555e0a5f7aefd1e17ad4aaf40b'
+            start: '2024-12-25'
+          - builder: dextrabot
+            addr: '0x49ae63056b3a0be0b166813ee687309ab653c07c'
+            start: '2025-02-16'
+          - builder: hyperdash
+            addr: '0xe966a12bf7b93838096e4519a684519ab22df618'
+            start: '2025-01-06'
+          - builder: superx
+            addr: '0x4ecd58def11dc3cadf7deb09f27da69d5475acb3'
+            start: '2025-04-16'
+          - builder: walletv
+            addr: '0x68c68ba58f50bdbe5c4a6faf0186b140eab2b764'
+            start: '2025-06-12'
+          - builder: basedapp
+            addr: '0x1924b8561eef20e70ede628a296175d358be80e5'
+            start: '2025-07-09'
+          - builder: supercexy
+            addr: '0x0000000bfbf4c62c43c2e71ef0093f382bf7a7b4'
+            start: '2025-07-13'
+          - builder: gtr_trade
+            addr: '0x5EF4DeeB76F87d979D0Ddc8c51f5b4F65d1c972A'
+            start: '2025-06-16'
+          - builder: lootbase
+            addr: '0x3e0ef9ad4096c30acefbf7a996f4c19edd071286'
+            start: '2025-02-06'
+          - builder: dexari
+            addr: '0x7975cafdff839ed5047244ed3a0dd82a89866081'
+            start: '2025-01-30'
+          - builder: liquid8
+            addr: '0x7151a036313eee8aa9bc45d0969ca0e1637aad3c'
+            start: '2025-03-21'
+          - builder: topdog
+            addr: '0xaef63e8441987a5e9bf1d37ebb61d8855f405a98'
+            start: '2025-04-14'
+          - builder: pear_protocol
+            addr: '0xA47D4d99191db54A4829cdf3de2417E527c3b042'
+            start: '2025-03-24'
+          - builder: mass
+            addr: '0xf944069B489F1ebfF4C3C6a6014d58cBEf7C7009'
+            start: '2025-06-23'
+            
           # …add one block per builder…
 
     name: Fetch ${{ matrix.builder }}
