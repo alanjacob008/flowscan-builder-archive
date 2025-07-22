@@ -44,7 +44,7 @@ jobs:
             done
           done <<< "$BUILDERS"
 
-      - name: Fetch daily data for each builder
+      - name: Fetch daily data and compile all.json for each builder
         run: |
           DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
 
@@ -74,6 +74,10 @@ jobs:
 
               current=$(date -d "$current + 1 day" +%Y-%m-%d)
             done
+
+            # Compile all daily JSONs into one master file
+            echo "Compiling all.json for $NAME"
+            jq -s '.' data/$NAME/*.json > data/$NAME/all.json
           done <<< "$BUILDERS"
 
       - name: Commit and push changes
