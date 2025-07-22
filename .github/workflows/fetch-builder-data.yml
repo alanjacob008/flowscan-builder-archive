@@ -26,7 +26,7 @@ jobs:
             start: '2025-06-20'
           - builder: phantom
             addr: '0xb84168cf3be63c6b8dad05ff5d755e97432ff80b'
-            start: '22025-06-12'
+            start: '2025-06-12'
           - builder: okto
             addr: '0x05984fd37db96dc2a11a09519a8def556e80590b'
             start: '2024-11-04'
