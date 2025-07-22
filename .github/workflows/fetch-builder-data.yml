@@ -1,0 +1,51 @@
+name: Fetch FlowScan builder‑fills archive
+
+# runs every day at 00:00 UTC
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  # one line per builder: BuilderName;BuilderAddress;StartDate(YYYY-MM-DD)
+  BUILDERS: |
+    pvpdottrade;0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af;2024-10-27
+  #  BuilderB;0xab29499b6b4da18e26bfd10a053b0cd3ea0f1814;2025-01-01
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Fetch missing JSONs for each builder
+        run: |
+          DATE_YEST=$(date -d "yesterday" +%Y-%m-%d)
+          while IFS=';' read -r NAME ADDR START_DATE; do
+            mkdir -p data/$NAME
+            current="$START_DATE"
+            while [ "$(date -d "$current" +%Y-%m-%d)" != \
+                  "$(date -d "$DATE_YEST + 1 day" +%Y-%m-%d)" ]; do
+              DS=$(date -d "$current" +%Y%m%d)
+              OUTFILE="data/$NAME/$DS.json"
+              if [ -f "$OUTFILE" ]; then
+                echo "  skip $NAME/$DS.json"
+              else
+                echo "  fetch $NAME/$DS.json"
+                curl -s \
+                  "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$DS" \
+                  -o "$OUTFILE"
+              fi
+              current=$(date -d "$current + 1 day" +%Y-%m-%d)
+            done
+          done <<< "$BUILDERS"
+
+      - name: Commit new data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --quiet --cached || (
+            git commit -m "Add missing builder‑fills for $(date -d "yesterday" +%Y%m%d)"
+            git push
+          )
