@@ -23,28 +23,30 @@ jobs:
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
             start: '2025-03-23'
-          # …add one block per builder…
+          # …and so on for all your builders…
 
     name: Fetch ${{ matrix.builder }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Purge stray JSONs
-        run: rm -f data/${{ matrix.builder }}/*.json
+      - name: Purge only raw JSONs (dates) for this builder
+        run: rm -f data/${{ matrix.builder }}/[0-9]*.json
 
-      - name: Ensure failed_dates.json exists
+      - name: Ensure meta files exist
         run: |
           mkdir -p data/${{ matrix.builder }}
-          FAIL="data/${{ matrix.builder }}/failed_dates.json"
-          [ -f "$FAIL" ] || echo '[]' > "$FAIL"
+          echo '[]' > data/${{ matrix.builder }}/failed_dates.json
+          echo '[]' > data/${{ matrix.builder }}/daily_summary.json
+          echo '[]' > data/${{ matrix.builder }}/user_data.json
 
       - name: Fetch & build for ${{ matrix.builder }}
         run: |
+          set -e
           NAME=${{ matrix.builder }}
           ADDR=${{ matrix.addr }}
           START_DATE=${{ matrix.start }}
           YEST=$(date -d "yesterday" +%Y-%m-%d)
-          FAIL_FILE="data/$NAME/failed_dates.json"
+          FAIL="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
           # 1) Download per-day JSONs
@@ -53,45 +55,53 @@ jobs:
             RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
             OUT="data/$NAME/$D.json"
 
-            # if the JSON has an "error" field, log & skip
             if echo "$RAW" | jq -e 'has("error")' >/dev/null 2>&1; then
-              echo "❌ API error for $NAME/$D, logging"
+              echo "❌ API error for $NAME/$D"
               rm -f "$OUT"
-              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
+              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
             else
-              [ -f "$OUT" ] || echo "$RAW" > "$OUT"
-              jq --arg d "$D" 'map(select(. != $d))' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
+              [ -f "$OUT" ] && { current=$(date -d "$current + 1 day" +%Y-%m-%d); continue; }
+              echo "$RAW" > "$OUT"
+              jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
             fi
 
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
-          # 2) daily_summary.json
-          jq -n '[inputs
-            | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
-                revenue: .revenue,
-                volume:  .volume,
-                tradecount: .count,
-                uniqueusers: .uniqueUsers }
-          ]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
+          # 2) Build daily_summary.json only if there are any date files
+          if ls data/$NAME/[0-9]*.json 1> /dev/null 2>&1; then
+            jq -n '[inputs
+              | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
+                  revenue: .revenue,
+                  volume:  .volume,
+                  tradecount: .count,
+                  uniqueusers: .uniqueUsers }
+            ]' data/$NAME/[0-9]*.json > data/$NAME/daily_summary.json
+          else
+            echo '[]' > data/$NAME/daily_summary.json
+          fi
 
-          # 3) user_data.json with active_days
-          TMP="data/$NAME/_all.json"; echo '[]' > "$TMP"
-          for f in data/$NAME/[0-9]*.json; do
-            dt=${f##*/}; dt=${dt%.json}
-            jq --arg date "$dt" '[(.userAggregations?//[])[] | . + {date:$date}]' "$f" > tmp1
-            jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
-          done
-          jq '[.[]] | group_by(.user) | map({
-               user_address: .[0].user,
-               total_builder_fee_usd: (map(.builder_fee)|add),
-               total_volume: (map(.total_volume)|add),
-               total_trades: (map(.count)|add),
-               active_days: (map(select(.count>0)|.date)|unique|length)
-             })' "$TMP" > data/$NAME/user_data.json
-          rm tmp1 "$TMP"
+          # 3) Build user_data.json with active_days only if date files exist
+          if ls data/$NAME/[0-9]*.json 1> /dev/null 2>&1; then
+            TMP="data/$NAME/_all.json"; echo '[]' > "$TMP"
+            for f in data/$NAME/[0-9]*.json; do
+              dt=${f##*/}; dt=${dt%.json}
+              jq --arg date "$dt" '[(.userAggregations?//[])[] | . + {date:$date}]' "$f" > tmp1
+              jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
+            done
+            jq '[.[]] | group_by(.user) | map({
+                 user_address: .[0].user,
+                 total_builder_fee_usd: (map(.builder_fee)|add),
+                 total_volume: (map(.total_volume)|add),
+                 total_trades: (map(.count)|add),
+                 active_days: (map(select(.count>0)|.date)|unique|length)
+               })' "$TMP" > data/$NAME/user_data.json
+            rm tmp1 "$TMP"
+          else
+            echo '[]' > data/$NAME/user_data.json
+          fi
 
-          # 4) Split if >3 MB
+          # 4) Split user_data.json if it’s too big
           SIZE=$(stat -c%s data/$NAME/user_data.json)
           if [ "$SIZE" -gt $((3*1024*1024)) ]; then
             TOTAL=$(jq length data/$NAME/user_data.json)
