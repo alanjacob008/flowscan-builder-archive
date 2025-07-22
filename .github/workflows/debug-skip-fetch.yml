@@ -1,0 +1,49 @@
+name: Debug Skip‑Fetch FlowScan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug-skip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Dry‑run skip‑logic for pvp_dot_trade
+        run: |
+          set -e
+
+          # (pick a builder to test)
+          NAME="pvp_dot_trade"
+          ADDR="0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af"
+          ADDR=${ADDR,,}        # lowercase
+          START_DATE="2024-10-27"
+          YEST=$(date -d "yesterday" +%Y-%m-%d)
+
+          echo "Builder: $NAME"
+          echo "Address: $ADDR"
+          echo "Range: $START_DATE → $YEST"
+          echo
+
+          # gather existing date filenames (basename without .json)
+          EXISTING=$(ls data/$NAME/[0-9][0-9]*.json 2>/dev/null \
+                     | xargs -n1 basename \
+                     | sed 's/\.json$//' \
+                     | sort)
+
+          echo "Already have these dates:"
+          echo "$EXISTING"
+          echo
+
+          current="$START_DATE"
+          while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
+            D=$(date -d "$current" +%Y%m%d)
+            if echo "$EXISTING" | grep -qx "$D"; then
+              echo "⏭ Skipping $D (already downloaded)"
+            else
+              echo "▶️ Will fetch $D"
+            fi
+            current=$(date -d "$current + 1 day" +%Y-%m-%d)
+          done
+
+          echo; echo "✅ Dry‑run complete"
