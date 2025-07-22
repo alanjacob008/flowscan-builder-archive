@@ -6,7 +6,7 @@ name: Fetch FlowScan builder‑fills archive
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # daily at midnight UTC
 
 jobs:
   fetch:
@@ -23,7 +23,7 @@ jobs:
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
             start: '2025-03-23'
-          # …and so on for all your builders…
+          # …add one block per builder…
 
     name: Fetch ${{ matrix.builder }}
     steps:
@@ -47,18 +47,22 @@ jobs:
           FAIL_FILE="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
-          # 1) Download daily JSONs
+          # 1) Download per-day JSONs
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
             RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
             OUT="data/$NAME/$D.json"
-            if echo "$RAW" | jq 'has("error")' | grep -q true; then
+
+            # if the JSON has an "error" field, log & skip
+            if echo "$RAW" | jq -e 'has("error")' >/dev/null 2>&1; then
+              echo "❌ API error for $NAME/$D, logging"
               rm -f "$OUT"
               jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
             else
               [ -f "$OUT" ] || echo "$RAW" > "$OUT"
               jq --arg d "$D" 'map(select(. != $d))' "$FAIL_FILE" > tmp && mv tmp "$FAIL_FILE"
             fi
+
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
