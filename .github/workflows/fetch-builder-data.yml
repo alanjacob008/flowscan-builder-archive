@@ -9,7 +9,7 @@ on:
 env:
   # one line per builder: BuilderName;BuilderAddress;StartDate(YYYY-MM-DD)
   BUILDERS: |
-    pvpdottrade;0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af;2024-10-27
+    pvp_dot_trade;0x0cbf655b0d22ae71fba3a674b0e1c0c7e7f975af;2024-10-27
   #  BuilderB;0xab29499b6b4da18e26bfd10a053b0cd3ea0f1814;2025-01-01
 
 jobs:
