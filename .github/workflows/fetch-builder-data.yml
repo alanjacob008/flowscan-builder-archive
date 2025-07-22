@@ -78,7 +78,6 @@ jobs:
           - builder: mass
             addr: '0xf944069B489F1ebfF4C3C6a6014d58cBEf7C7009'
             start: '2025-06-23'
-            
           # …add one block per builder…
 
     name: Fetch ${{ matrix.builder }}
@@ -106,19 +105,25 @@ jobs:
           FAIL="data/$NAME/failed_dates.json"
           current="$START_DATE"
 
-          # 1) Download daily JSONs
+          # 1) Download daily JSONs (skip if exists)
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
-            RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
             OUT="data/$NAME/$D.json"
-            if echo "$RAW" | jq -e 'has("error")' >/dev/null; then
-              echo "❌ API error for $NAME/$D"
-              rm -f "$OUT"
-              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
+
+            if [ -f "$OUT" ]; then
+              echo "⏭ Skipping $NAME/$D (already exists)"
             else
-              [ -f "$OUT" ] || echo "$RAW" > "$OUT"
-              jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
+              RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+              if echo "$RAW" | jq -e 'has("error")' >/dev/null; then
+                echo "❌ API error for $NAME/$D"
+                rm -f "$OUT"
+                jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
+              else
+                echo "$RAW" > "$OUT"
+                jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
+              fi
             fi
+
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
@@ -161,7 +166,7 @@ jobs:
             TOTAL=$(jq length data/$NAME/user_data.json)
             CHUNK=5000; CNT=1
             while [ $(( (CNT-1)*CHUNK )) -lt $TOTAL ]; do
-              S=$(( (CNT-1)*CHUNK )); E=$((S+CHUNK))
+              S=$(( (CNT-1)*CHUNK )) ; E=$((S+CHUNK))
               IDX=$(printf "%04d" $CNT)
               jq ".[$S:$E]" data/$NAME/user_data.json > data/$NAME/user_data_$IDX.json
               CNT=$((CNT+1))
@@ -173,11 +178,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # stash local changes
           git stash push --include-untracked --quiet || true
-          # pull & rebase latest
           git pull --rebase origin main
-          # re‑apply our files
           git stash pop --quiet || true
           git add data/${{ matrix.builder }}
           git diff --quiet --cached || \
