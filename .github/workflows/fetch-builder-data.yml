@@ -20,10 +20,10 @@ jobs:
             start: '2024-10-27'
           - builder: liquid_perps
             addr: '0x6d4e7f472e6a491b98cbeed327417e310ae8ce48'
-            start: '2025-06-15'
+            start: '2025-06-10'
           - builder: pocket_pro
             addr: '0x7151A036313EEe8Aa9Bc45d0969ca0E1637AAd3C'
-            start: '2025-06-20'
+            start: '2025-03-22'
           - builder: phantom
             addr: '0xb84168cf3be63c6b8dad05ff5d755e97432ff80b'
             start: '2025-06-12'
@@ -50,13 +50,13 @@ jobs:
             start: '2025-04-16'
           - builder: walletv
             addr: '0x68c68ba58f50bdbe5c4a6faf0186b140eab2b764'
-            start: '2025-06-12'
+            start: '2025-06-08'
           - builder: basedapp
             addr: '0x1924b8561eef20e70ede628a296175d358be80e5'
             start: '2025-07-09'
           - builder: supercexy
             addr: '0x0000000bfbf4c62c43c2e71ef0093f382bf7a7b4'
-            start: '2025-07-13'
+            start: '2025-07-12'
           - builder: gtr_trade
             addr: '0x5EF4DeeB76F87d979D0Ddc8c51f5b4F65d1c972A'
             start: '2025-06-16'
