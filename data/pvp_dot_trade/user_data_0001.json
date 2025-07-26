@@ -1191,10 +1191,10 @@
   },
   {
     "user_address": "0x01abcf9015979dd5949e9ab7a9505a7b1bc93cc0",
-    "total_builder_fee_usd": 993.316047,
-    "total_volume": 1993434.6752140003,
-    "total_trades": 828,
-    "active_days": 69
+    "total_builder_fee_usd": 997.117251,
+    "total_volume": 2003437.8550440003,
+    "total_trades": 838,
+    "active_days": 70
   },
   {
     "user_address": "0x01b84ace246f3eea9c09436477d120484052a894",
@@ -1282,10 +1282,10 @@
   },
   {
     "user_address": "0x01d757337a29c81328ae41be993ccb7419db0976",
-    "total_builder_fee_usd": 141.38268700000003,
-    "total_volume": 287804.666389,
-    "total_trades": 133,
-    "active_days": 9
+    "total_builder_fee_usd": 145.87727000000004,
+    "total_volume": 300571.734887,
+    "total_trades": 159,
+    "active_days": 10
   },
   {
     "user_address": "0x01d8fdbd512d177e27a96e12263e4d120dbeda9e",
@@ -1520,10 +1520,10 @@
   },
   {
     "user_address": "0x02109b2bf68fba64a1645ca807b5393d52262631",
-    "total_builder_fee_usd": 24.349552,
-    "total_volume": 61999.222895,
-    "total_trades": 134,
-    "active_days": 22
+    "total_builder_fee_usd": 24.669660999999998,
+    "total_volume": 62799.497635,
+    "total_trades": 138,
+    "active_days": 23
   },
   {
     "user_address": "0x0210a942717a6603b17361ca602e884fec1221f0",
@@ -1695,10 +1695,10 @@
   },
   {
     "user_address": "0x02462dea0f4e9abe07113ba4ad5750b4e602aa9d",
-    "total_builder_fee_usd": 2191.5468229999988,
-    "total_volume": 4687522.413582998,
-    "total_trades": 3114,
-    "active_days": 207
+    "total_builder_fee_usd": 2200.720210999999,
+    "total_volume": 4712856.386408999,
+    "total_trades": 3136,
+    "active_days": 208
   },
   {
     "user_address": "0x024e4098df25de68ec463450934be459d9476ceb",
@@ -4663,10 +4663,10 @@
   },
   {
     "user_address": "0x0669f4c840f8f8f3d935b69e13658d95ba5a6223",
-    "total_builder_fee_usd": 320.04868400000004,
-    "total_volume": 412532.2323010001,
-    "total_trades": 463,
-    "active_days": 71
+    "total_builder_fee_usd": 320.70017400000006,
+    "total_volume": 414341.9294410001,
+    "total_trades": 464,
+    "active_days": 72
   },
   {
     "user_address": "0x066f119f536ee08a608a02b3dadaea51789266f6",
@@ -5318,6 +5318,13 @@
     "total_volume": 31443.918660000003,
     "total_trades": 22,
     "active_days": 4
+  },
+  {
+    "user_address": "0x075a04319f1cd56ed0d2b29bf2164323e2dd39bd",
+    "total_builder_fee_usd": 2.8754649999999997,
+    "total_volume": 7188.674890000001,
+    "total_trades": 9,
+    "active_days": 1
   },
   {
     "user_address": "0x075bd96306548e7bcab828b1537a171c5f2dcb9b",
@@ -7449,10 +7456,10 @@
   },
   {
     "user_address": "0x0a093d0c5cdc631ce407dc197d95d0c785805441",
-    "total_builder_fee_usd": 2.819088,
-    "total_volume": 9003.094066000001,
-    "total_trades": 41,
-    "active_days": 6
+    "total_builder_fee_usd": 3.6429139999999998,
+    "total_volume": 11279.148476000002,
+    "total_trades": 47,
+    "active_days": 7
   },
   {
     "user_address": "0x0a0c2c3f2abb6e76a5aa702eeac9088f3ebaab38",
@@ -8177,10 +8184,10 @@
   },
   {
     "user_address": "0x0b110739beaffe6aab8cb7e634276b790d794856",
-    "total_builder_fee_usd": 216.57666300000008,
-    "total_volume": 552350.9468249999,
-    "total_trades": 604,
-    "active_days": 61
+    "total_builder_fee_usd": 218.8995490000001,
+    "total_volume": 558307.0698249999,
+    "total_trades": 609,
+    "active_days": 62
   },
   {
     "user_address": "0x0b133ab116a7f9ea99c2aaecd15ee097e8a79384",
@@ -9031,10 +9038,10 @@
   },
   {
     "user_address": "0x0c3b56a6a78f4a489deacfdc76d0bc1427ba9797",
-    "total_builder_fee_usd": 453.87308800000005,
-    "total_volume": 960435.372427,
-    "total_trades": 569,
-    "active_days": 77
+    "total_builder_fee_usd": 460.2516120000001,
+    "total_volume": 977995.9117269999,
+    "total_trades": 584,
+    "active_days": 78
   },
   {
     "user_address": "0x0c3cc7b4b58282736011946fb941f885dc80f99b",
@@ -9794,10 +9801,10 @@
   },
   {
     "user_address": "0x0d2c2f4f806ed65b4c55230d185833404e97c0fe",
-    "total_builder_fee_usd": 3176.816353209998,
-    "total_volume": 3805297.61753582,
-    "total_trades": 5908,
-    "active_days": 176
+    "total_builder_fee_usd": 3179.828362209998,
+    "total_volume": 3813438.1852358202,
+    "total_trades": 5911,
+    "active_days": 177
   },
   {
     "user_address": "0x0d2d17796d397ad71b0558a8dfd9b29d01706984",
@@ -10025,10 +10032,10 @@
   },
   {
     "user_address": "0x0d857102d8888c64afa518f5e3f3faa68efa9ca2",
-    "total_builder_fee_usd": 18.883689999999998,
-    "total_volume": 40273.562527999995,
-    "total_trades": 347,
-    "active_days": 105
+    "total_builder_fee_usd": 18.931607,
+    "total_volume": 40393.35724799999,
+    "total_trades": 350,
+    "active_days": 106
   },
   {
     "user_address": "0x0d8650cf27aa7bfacc254de173498abf4378be4f",
@@ -12685,10 +12692,10 @@
   },
   {
     "user_address": "0x10d48ffad16b9349030c1491d02d4070623d6719",
-    "total_builder_fee_usd": 378.6893129999998,
-    "total_volume": 806349.1511989997,
-    "total_trades": 1362,
-    "active_days": 128
+    "total_builder_fee_usd": 379.4884699999998,
+    "total_volume": 809095.5184789997,
+    "total_trades": 1368,
+    "active_days": 129
   },
   {
     "user_address": "0x10d88886ae74e668b566964f9a924a797903036d",
@@ -13301,10 +13308,10 @@
   },
   {
     "user_address": "0x11dbbb2d3efc871cdc73aa543f6862d52c1ed9cb",
-    "total_builder_fee_usd": 37.13208,
-    "total_volume": 97823.115827,
-    "total_trades": 169,
-    "active_days": 22
+    "total_builder_fee_usd": 43.892426,
+    "total_volume": 114848.112387,
+    "total_trades": 200,
+    "active_days": 23
   },
   {
     "user_address": "0x11e0b613f3ea6dd50ad0ee6692ec1999ac1c5298",
@@ -13700,10 +13707,10 @@
   },
   {
     "user_address": "0x12690b0367f65019b9e1c6aa4d924a72cb02e426",
-    "total_builder_fee_usd": 1809.0184080000004,
-    "total_volume": 5452282.933234,
-    "total_trades": 1010,
-    "active_days": 32
+    "total_builder_fee_usd": 1867.9403410000004,
+    "total_volume": 5612070.547866,
+    "total_trades": 1035,
+    "active_days": 33
   },
   {
     "user_address": "0x126bc94abb69150a7a1ae0f6fa843c649ebd64db",
@@ -13876,9 +13883,9 @@
   {
     "user_address": "0x12ba6d7c2e4157835b8c17070cad80e86fd766f3",
     "total_builder_fee_usd": 992.1576129999999,
-    "total_volume": 1547254.6427363998,
-    "total_trades": 520,
-    "active_days": 54
+    "total_volume": 1617915.2334363998,
+    "total_trades": 562,
+    "active_days": 55
   },
   {
     "user_address": "0x12bdf7742b477d4e8beaa35bf01a8360280b31d7",
@@ -14309,10 +14316,10 @@
   },
   {
     "user_address": "0x13590caeda7898cc84e3516d946e80c53b8a7e09",
-    "total_builder_fee_usd": 651.5719745100001,
-    "total_volume": 456087.16927834984,
-    "total_trades": 686,
-    "active_days": 28
+    "total_builder_fee_usd": 653.0123105100001,
+    "total_volume": 460888.30317834986,
+    "total_trades": 695,
+    "active_days": 29
   },
   {
     "user_address": "0x135a2e4496e02003b3a1d11562f2411d01dfba19",
@@ -16038,10 +16045,10 @@
   },
   {
     "user_address": "0x159a59f2fe81467d74b4286cdb6b68f5d7804e22",
-    "total_builder_fee_usd": 1.8032709999999998,
-    "total_volume": 3634.2875030000005,
-    "total_trades": 13,
-    "active_days": 4
+    "total_builder_fee_usd": 1.843079,
+    "total_volume": 3733.8143330000003,
+    "total_trades": 17,
+    "active_days": 5
   },
   {
     "user_address": "0x159c60841f0cbaee9b16844fc940b355e5be008a",
@@ -17473,10 +17480,10 @@
   },
   {
     "user_address": "0x1783137fe504271ae31b0358b1aabbd4dab9b2f2",
-    "total_builder_fee_usd": 278.598745,
-    "total_volume": 576729.0382,
-    "total_trades": 289,
-    "active_days": 29
+    "total_builder_fee_usd": 278.897035,
+    "total_volume": 578149.4719,
+    "total_trades": 291,
+    "active_days": 30
   },
   {
     "user_address": "0x1787110920f3bb2478272758d289a1b7781d8a92",
@@ -18145,10 +18152,10 @@
   },
   {
     "user_address": "0x18475518ed08a076c4e4d34295b449c1b03d56bf",
-    "total_builder_fee_usd": 51.158645,
-    "total_volume": 213484.25793999998,
-    "total_trades": 98,
-    "active_days": 13
+    "total_builder_fee_usd": 53.243485,
+    "total_volume": 223908.46293999997,
+    "total_trades": 100,
+    "active_days": 14
   },
   {
     "user_address": "0x18482f7dc4e596be62251ff68a5d7d00666a9ae7",
@@ -18194,10 +18201,10 @@
   },
   {
     "user_address": "0x185cb822f371a8923ff57de0af89547818087af3",
-    "total_builder_fee_usd": 316.3499800000001,
-    "total_volume": 635027.8178869999,
-    "total_trades": 204,
-    "active_days": 29
+    "total_builder_fee_usd": 317.8553780000001,
+    "total_volume": 639151.8005269999,
+    "total_trades": 231,
+    "active_days": 30
   },
   {
     "user_address": "0x185e6059a8711db325cd4d3b8b096c3904beba90",
@@ -18572,10 +18579,10 @@
   },
   {
     "user_address": "0x18ddf04e9d48f44f0de308d6ec90c7f5c12387b6",
-    "total_builder_fee_usd": 1368.1514929999998,
-    "total_volume": 3105478.049773641,
-    "total_trades": 1656,
-    "active_days": 64
+    "total_builder_fee_usd": 1373.8431249999999,
+    "total_volume": 3120456.0499936407,
+    "total_trades": 1671,
+    "active_days": 65
   },
   {
     "user_address": "0x18e2f92b70ea705cb351e19fdef1ae1775bfba62",
@@ -19230,10 +19237,10 @@
   },
   {
     "user_address": "0x19a3d321e4ebad3ac0541c6ed605249cda9d4251",
-    "total_builder_fee_usd": 5.804464,
-    "total_volume": 22514.67341,
-    "total_trades": 4,
-    "active_days": 2
+    "total_builder_fee_usd": 18.196078,
+    "total_volume": 68280.13618,
+    "total_trades": 11,
+    "active_days": 3
   },
   {
     "user_address": "0x19a4ed45e62e9ba7a0ffa3b18b4ee908a2c7b41f",
@@ -20623,10 +20630,10 @@
   },
   {
     "user_address": "0x1b8d9df3fe87bcfc9f292b8b128e5222f5dbcae2",
-    "total_builder_fee_usd": 3.6916050000000005,
-    "total_volume": 8743.46243,
-    "total_trades": 36,
-    "active_days": 13
+    "total_builder_fee_usd": 4.933554000000001,
+    "total_volume": 11848.33649,
+    "total_trades": 38,
+    "active_days": 14
   },
   {
     "user_address": "0x1b8dd14f30754ad8fe83cfdb05bba9699f647f3d",
@@ -21470,10 +21477,10 @@
   },
   {
     "user_address": "0x1cab197eb22480194931fb368fff131fd506090d",
-    "total_builder_fee_usd": 8.228357,
-    "total_volume": 29846.581416999998,
-    "total_trades": 43,
-    "active_days": 22
+    "total_builder_fee_usd": 9.194434000000001,
+    "total_volume": 32467.334916999996,
+    "total_trades": 47,
+    "active_days": 23
   },
   {
     "user_address": "0x1cac56188f637c9373bd63e0815ea6267b1ad701",
@@ -21799,10 +21806,10 @@
   },
   {
     "user_address": "0x1d0757d412b2cbbd5aed0c6b23cddfc7bf60b037",
-    "total_builder_fee_usd": 24.57814273000001,
-    "total_volume": 48203.51993681997,
-    "total_trades": 391,
-    "active_days": 115
+    "total_builder_fee_usd": 24.65309473000001,
+    "total_volume": 48395.70683681997,
+    "total_trades": 392,
+    "active_days": 116
   },
   {
     "user_address": "0x1d07f47c76c01e19a37a418cf12b207600719a04",
@@ -22177,10 +22184,10 @@
   },
   {
     "user_address": "0x1d823618e03f1a68fe04ebc4eae1450107f2bd18",
-    "total_builder_fee_usd": 7.115136,
-    "total_volume": 13565.482601999998,
-    "total_trades": 22,
-    "active_days": 7
+    "total_builder_fee_usd": 7.875649999999999,
+    "total_volume": 15566.837622,
+    "total_trades": 25,
+    "active_days": 8
   },
   {
     "user_address": "0x1d8aa95747b07501f7fd7d46816cb3bc93f0369d",
@@ -22247,10 +22254,10 @@
   },
   {
     "user_address": "0x1da5e83e62417f0dbd5f33b35d1a0da51cfc1026",
-    "total_builder_fee_usd": 568.406763,
-    "total_volume": 1139497.6070310003,
-    "total_trades": 349,
-    "active_days": 16
+    "total_builder_fee_usd": 570.8731319999999,
+    "total_volume": 1146155.3640210002,
+    "total_trades": 357,
+    "active_days": 17
   },
   {
     "user_address": "0x1da821b7dd2e3f146715a1a73bc818fe5e5f0bb7",
@@ -22499,10 +22506,10 @@
   },
   {
     "user_address": "0x1def3638fb73a14d829f692b582ed749a3da4dc3",
-    "total_builder_fee_usd": 394.6041359999999,
-    "total_volume": 981042.0201509999,
-    "total_trades": 438,
-    "active_days": 38
+    "total_builder_fee_usd": 435.36547099999996,
+    "total_volume": 1088799.96079,
+    "total_trades": 485,
+    "active_days": 39
   },
   {
     "user_address": "0x1df12fff39da319604e6df3f5951c6f71f7e966a",
@@ -22562,10 +22569,10 @@
   },
   {
     "user_address": "0x1e0371f80ca3cebf60c84a44bd0d2e8866dd7614",
-    "total_builder_fee_usd": 16090.308469000014,
-    "total_volume": 50281061.93501799,
-    "total_trades": 15979,
-    "active_days": 121
+    "total_builder_fee_usd": 16157.555398000015,
+    "total_volume": 50502552.18964799,
+    "total_trades": 15990,
+    "active_days": 122
   },
   {
     "user_address": "0x1e069ba6a9486469d9016fa5d432f96c50468646",
@@ -22905,10 +22912,10 @@
   },
   {
     "user_address": "0x1e89db99e6cb6e431b3134da7ff35ec6aa3e3b96",
-    "total_builder_fee_usd": 194.99504200000007,
-    "total_volume": 395156.085599,
-    "total_trades": 162,
-    "active_days": 16
+    "total_builder_fee_usd": 196.07281900000007,
+    "total_volume": 398326.025155,
+    "total_trades": 166,
+    "active_days": 17
   },
   {
     "user_address": "0x1e8d6519f8f7c131c38dcb1a36958872968e6be3",
@@ -23185,10 +23192,10 @@
   },
   {
     "user_address": "0x1eee16812d4dbacef131cde5a108507c578da56e",
-    "total_builder_fee_usd": 51.17069900000002,
-    "total_volume": 97833.22805299996,
-    "total_trades": 190,
-    "active_days": 57
+    "total_builder_fee_usd": 51.55297300000002,
+    "total_volume": 98788.91445299996,
+    "total_trades": 191,
+    "active_days": 58
   },
   {
     "user_address": "0x1eef623f02214a4145153f021dd2907cf332380f",
@@ -23409,10 +23416,10 @@
   },
   {
     "user_address": "0x1f32c9e40900b399c7a7fbe7fb27d9ea6ec1fb9b",
-    "total_builder_fee_usd": 209.54461400000005,
-    "total_volume": 909736.6060289998,
-    "total_trades": 951,
-    "active_days": 25
+    "total_builder_fee_usd": 215.71466600000005,
+    "total_volume": 926018.8111209997,
+    "total_trades": 981,
+    "active_days": 26
   },
   {
     "user_address": "0x1f345f32b2c097afbe7060c195ccb8a2e33be7b1",
@@ -23997,10 +24004,10 @@
   },
   {
     "user_address": "0x202c47f7c66e5d678db3e051deabc25478863022",
-    "total_builder_fee_usd": 1918.413649000001,
-    "total_volume": 4288684.885141,
-    "total_trades": 2774,
-    "active_days": 142
+    "total_builder_fee_usd": 1925.112955000001,
+    "total_volume": 4310949.532661,
+    "total_trades": 2791,
+    "active_days": 143
   },
   {
     "user_address": "0x203b3b19a555cf4c8a61d6af7e025bd04ed9c668",
@@ -26825,10 +26832,10 @@
   },
   {
     "user_address": "0x23e781ad0b4d6beada373e06d55c1ca5f2dab614",
-    "total_builder_fee_usd": 0.753073,
-    "total_volume": 1882.690216,
-    "total_trades": 5,
-    "active_days": 1
+    "total_builder_fee_usd": 1.508006,
+    "total_volume": 3820.48654,
+    "total_trades": 11,
+    "active_days": 2
   },
   {
     "user_address": "0x23ed56febff8a69eaf85c59e740fa97f85646dd8",
@@ -27056,10 +27063,10 @@
   },
   {
     "user_address": "0x242aae66065c2ecc7f06a51cd6c0f08d25baa250",
-    "total_builder_fee_usd": 13.917274,
-    "total_volume": 47279.130653,
-    "total_trades": 40,
-    "active_days": 13
+    "total_builder_fee_usd": 15.140258000000001,
+    "total_volume": 51100.957853,
+    "total_trades": 41,
+    "active_days": 14
   },
   {
     "user_address": "0x242d67f3df6b7a93efce3f51e6f2b35bada23b2f",
@@ -28127,10 +28134,10 @@
   },
   {
     "user_address": "0x2584c8e63af1306daffea50ba20d76525f3e0454",
-    "total_builder_fee_usd": 7.741332000000001,
-    "total_volume": 22987.480601000007,
-    "total_trades": 110,
-    "active_days": 21
+    "total_builder_fee_usd": 8.325306000000001,
+    "total_volume": 24748.943361000005,
+    "total_trades": 116,
+    "active_days": 22
   },
   {
     "user_address": "0x258862d668966ea31d94a5a1ee49b490ad512d3d",
@@ -28162,10 +28169,10 @@
   },
   {
     "user_address": "0x2590839dca7a00dd435233cb7ef89920d4d54d44",
-    "total_builder_fee_usd": 5795.341374999995,
-    "total_volume": 11593909.585718999,
-    "total_trades": 2686,
-    "active_days": 20
+    "total_builder_fee_usd": 5795.693023999996,
+    "total_volume": 11595043.938050998,
+    "total_trades": 2688,
+    "active_days": 21
   },
   {
     "user_address": "0x25913f708d5666e0e9572a5e2f5809f64a2e3f57",
@@ -28281,10 +28288,10 @@
   },
   {
     "user_address": "0x25b891ca7ef93652d1f3d638877d4453c6c0359b",
-    "total_builder_fee_usd": 269.57419200000004,
-    "total_volume": 740490.2815220001,
-    "total_trades": 1056,
-    "active_days": 19
+    "total_builder_fee_usd": 300.6688280000001,
+    "total_volume": 836821.470682,
+    "total_trades": 1130,
+    "active_days": 20
   },
   {
     "user_address": "0x25bb738e3f1da366f983b2cab89fbdcd63d39bf9",
@@ -29093,10 +29100,10 @@
   },
   {
     "user_address": "0x26dd21bac10093a04044ed061aae26533a993b5c",
-    "total_builder_fee_usd": 817.2860419999998,
-    "total_volume": 2091104.7265030001,
-    "total_trades": 1453,
-    "active_days": 72
+    "total_builder_fee_usd": 845.2417109999999,
+    "total_volume": 2170979.1795530003,
+    "total_trades": 1512,
+    "active_days": 73
   },
   {
     "user_address": "0x26de88af4133d44708e44753360c169bf7c44695",
@@ -29548,10 +29555,10 @@
   },
   {
     "user_address": "0x2755d3dc0ee147c302abda9bb866b712d70e8975",
-    "total_builder_fee_usd": 80.49419799999998,
-    "total_volume": 161080.03327,
-    "total_trades": 185,
-    "active_days": 22
+    "total_builder_fee_usd": 81.27415599999998,
+    "total_volume": 163054.93311,
+    "total_trades": 188,
+    "active_days": 23
   },
   {
     "user_address": "0x27572615ca22781fa1e88e1bad238203663c9228",
@@ -29723,10 +29730,10 @@
   },
   {
     "user_address": "0x27b0a99c8a756a40bf0f6c63570fce5a20f1d2c2",
-    "total_builder_fee_usd": 3.6819490000000004,
-    "total_volume": 8893.568770740001,
-    "total_trades": 20,
-    "active_days": 10
+    "total_builder_fee_usd": 3.8422980000000004,
+    "total_volume": 9294.443170740002,
+    "total_trades": 21,
+    "active_days": 11
   },
   {
     "user_address": "0x27b186061c3d2143912383bb443cbfdd1acaf530",
@@ -30773,10 +30780,10 @@
   },
   {
     "user_address": "0x290827393fb650692f2d3e424d762b0ac102985e",
-    "total_builder_fee_usd": 3433.121653,
-    "total_volume": 7415409.8579600025,
-    "total_trades": 3564,
-    "active_days": 144
+    "total_builder_fee_usd": 3436.821648,
+    "total_volume": 7425409.844480002,
+    "total_trades": 3565,
+    "active_days": 145
   },
   {
     "user_address": "0x29085fa3037dece788bde1eba6959d78cd9e5b19",
@@ -31382,10 +31389,10 @@
   },
   {
     "user_address": "0x29eec9a1d349c3fe089b408300af97c8091b4e46",
-    "total_builder_fee_usd": 1647.7058899999995,
-    "total_volume": 4190583.5358370002,
-    "total_trades": 701,
-    "active_days": 54
+    "total_builder_fee_usd": 1650.5975409999994,
+    "total_volume": 4198398.812253,
+    "total_trades": 706,
+    "active_days": 55
   },
   {
     "user_address": "0x29efaaba9b664308b89c92b391e960887666c991",
@@ -32012,10 +32019,10 @@
   },
   {
     "user_address": "0x2ab0a55738f3bb9d329372e81ab40c2642b3f3fa",
-    "total_builder_fee_usd": 311.17892899999987,
-    "total_volume": 623417.3796589999,
-    "total_trades": 460,
-    "active_days": 98
+    "total_builder_fee_usd": 313.0344489999999,
+    "total_volume": 628290.6353469999,
+    "total_trades": 468,
+    "active_days": 99
   },
   {
     "user_address": "0x2ab1c0ce2d437c85a3c20d58d83827356c4411f6",
@@ -32544,10 +32551,10 @@
   },
   {
     "user_address": "0x2b55e5690bb2f6c41a2685d9190f9630d1816e2d",
-    "total_builder_fee_usd": 1186.1324912100004,
-    "total_volume": 2830564.940868099,
-    "total_trades": 1223,
-    "active_days": 126
+    "total_builder_fee_usd": 1186.7705122100003,
+    "total_volume": 2838508.910718099,
+    "total_trades": 1226,
+    "active_days": 127
   },
   {
     "user_address": "0x2b560635243dde79a2ad634041fb5b559d852793",
@@ -32607,10 +32614,10 @@
   },
   {
     "user_address": "0x2b70ee08f3b1af5eb8a8486ceeaa7065ca380eeb",
-    "total_builder_fee_usd": 5.988881,
-    "total_volume": 15618.805764999997,
-    "total_trades": 17,
-    "active_days": 2
+    "total_builder_fee_usd": 7.52544,
+    "total_volume": 19558.707324999996,
+    "total_trades": 21,
+    "active_days": 3
   },
   {
     "user_address": "0x2b71c232c214061f8ca398e8d10b98aa83f33d8f",
@@ -33468,10 +33475,10 @@
   },
   {
     "user_address": "0x2c6f004c31fa4592118219bc242c19cd01debe40",
-    "total_builder_fee_usd": 732.5456849999998,
-    "total_volume": 1625524.753940999,
-    "total_trades": 1530,
-    "active_days": 72
+    "total_builder_fee_usd": 732.7358639999998,
+    "total_volume": 1626025.229104999,
+    "total_trades": 1532,
+    "active_days": 73
   },
   {
     "user_address": "0x2c73fc8244218ca2b1bb5b18b9a710580c410251",
@@ -34991,12 +34998,5 @@
     "total_volume": 3150.28386,
     "total_trades": 8,
     "active_days": 2
-  },
-  {
-    "user_address": "0x2e2d427e5fb6f10a4555b897ca0c7de05096fe08",
-    "total_builder_fee_usd": 297.58516900000006,
-    "total_volume": 685040.326769,
-    "total_trades": 234,
-    "active_days": 48
   }
 ]
