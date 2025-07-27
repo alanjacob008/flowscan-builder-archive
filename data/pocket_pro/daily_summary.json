@@ -803,5 +803,19 @@
     "volume": 2448430.435042001,
     "tradecount": 436,
     "uniqueusers": 13
+  },
+  {
+    "date": "20250722",
+    "revenue": 187.52636699999994,
+    "volume": 546817.70796,
+    "tradecount": 155,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250723",
+    "revenue": 13.186646999999999,
+    "volume": 37676.15353,
+    "tradecount": 15,
+    "uniqueusers": 1
   }
 ]
