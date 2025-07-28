@@ -201,5 +201,33 @@
     "volume": 11966322.061915012,
     "tradecount": 3404,
     "uniqueusers": 105
+  },
+  {
+    "date": "20250723",
+    "revenue": 7404.843545000017,
+    "volume": 13442191.353747983,
+    "tradecount": 2784,
+    "uniqueusers": 113
+  },
+  {
+    "date": "20250724",
+    "revenue": 7360.156290999968,
+    "volume": 13340916.608276082,
+    "tradecount": 4788,
+    "uniqueusers": 128
+  },
+  {
+    "date": "20250725",
+    "revenue": 12242.85661100002,
+    "volume": 22107184.69024302,
+    "tradecount": 5496,
+    "uniqueusers": 111
+  },
+  {
+    "date": "20250726",
+    "revenue": 11818.93050399992,
+    "volume": 21443471.46684196,
+    "tradecount": 4998,
+    "uniqueusers": 122
   }
 ]
