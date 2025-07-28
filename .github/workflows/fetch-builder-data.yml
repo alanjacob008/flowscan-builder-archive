@@ -66,9 +66,6 @@ jobs:
           - builder: dexari
             addr: '0x7975cafdff839ed5047244ed3a0dd82a89866081'
             start: '2025-01-30'
-          - builder: liquid8
-            addr: '0x7151a036313eee8aa9bc45d0969ca0e1637aad3c'
-            start: '2025-03-21'
           - builder: topdog
             addr: '0xaef63e8441987a5e9bf1d37ebb61d8855f405a98'
             start: '2025-04-14'
