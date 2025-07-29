@@ -1,1 +1,1227 @@
-[]
+[
+  {
+    "date": "20250130",
+    "revenue": 0.379424,
+    "volume": 1897.13362,
+    "tradecount": 9,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250131",
+    "revenue": 0.219239,
+    "volume": 1096.21721,
+    "tradecount": 6,
+    "uniqueusers": 2
+  },
+  {
+    "date": "20250201",
+    "revenue": 0.031110000000000002,
+    "volume": 155.5687,
+    "tradecount": 7,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250203",
+    "revenue": 0.08976600000000001,
+    "volume": 448.8404499999999,
+    "tradecount": 6,
+    "uniqueusers": 2
+  },
+  {
+    "date": "20250204",
+    "revenue": 0.053157,
+    "volume": 265.78881,
+    "tradecount": 2,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250205",
+    "revenue": 0.052685,
+    "volume": 263.427,
+    "tradecount": 1,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250206",
+    "revenue": 0.283718,
+    "volume": 1418.6052800000002,
+    "tradecount": 8,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250207",
+    "revenue": 0.006137,
+    "volume": 30.69212,
+    "tradecount": 3,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250208",
+    "revenue": 0.25044399999999994,
+    "volume": 1252.2574299999999,
+    "tradecount": 16,
+    "uniqueusers": 2
+  },
+  {
+    "date": "20250210",
+    "revenue": 0.03573,
+    "volume": 178.64999999999998,
+    "tradecount": 2,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250211",
+    "revenue": 0.240719,
+    "volume": 1203.6171099999997,
+    "tradecount": 9,
+    "uniqueusers": 4
+  },
+  {
+    "date": "20250212",
+    "revenue": 0.46771,
+    "volume": 2338.55905,
+    "tradecount": 4,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250213",
+    "revenue": 3.189682,
+    "volume": 15948.479940000001,
+    "tradecount": 36,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250215",
+    "revenue": 0.1942,
+    "volume": 971,
+    "tradecount": 1,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250217",
+    "revenue": 0.20587,
+    "volume": 1029.35478,
+    "tradecount": 2,
+    "uniqueusers": 1
+  },
+  {
+    "date": "20250218",
+    "revenue": 0.226678,
+    "volume": 1133.3994400000001,
+    "tradecount": 5,
+    "uniqueusers": 3
+  },
+  {
+    "date": "20250219",
+    "revenue": 2.164845,
+    "volume": 10824.283070000001,
+    "tradecount": 23,
+    "uniqueusers": 3
+  },
+  {
+    "date": "20250220",
+    "revenue": 5.810059999999999,
+    "volume": 29050.626995999988,
+    "tradecount": 131,
+    "uniqueusers": 5
+  },
+  {
+    "date": "20250221",
+    "revenue": 8.118972999999995,
+    "volume": 40594.98729400001,
+    "tradecount": 47,
+    "uniqueusers": 5
+  },
+  {
+    "date": "20250222",
+    "revenue": 10.414275000000004,
+    "volume": 52071.439593,
+    "tradecount": 25,
+    "uniqueusers": 3
+  },
+  {
+    "date": "20250223",
+    "revenue": 0.192438,
+    "volume": 962.1967399999999,
+    "tradecount": 2,
+    "uniqueusers": 2
+  },
+  {
+    "date": "20250224",
+    "revenue": 2.877243,
+    "volume": 14386.240249999999,
+    "tradecount": 13,
+    "uniqueusers": 4
+  },
+  {
+    "date": "20250225",
+    "revenue": 11.047194,
+    "volume": 55236.04318,
+    "tradecount": 31,
+    "uniqueusers": 8
+  },
+  {
+    "date": "20250226",
+    "revenue": 71.54785900000002,
+    "volume": 357739.8069940001,
+    "tradecount": 212,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250227",
+    "revenue": 87.77183899999999,
+    "volume": 438859.67624300014,
+    "tradecount": 220,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250228",
+    "revenue": 182.86803599999996,
+    "volume": 914340.6503190002,
+    "tradecount": 203,
+    "uniqueusers": 20
+  },
+  {
+    "date": "20250301",
+    "revenue": 36.559133,
+    "volume": 182795.80224000002,
+    "tradecount": 60,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250302",
+    "revenue": 80.72071400000002,
+    "volume": 403603.94367699977,
+    "tradecount": 169,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250303",
+    "revenue": 69.99989100000002,
+    "volume": 349999.76343000005,
+    "tradecount": 133,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250304",
+    "revenue": 68.61555099999998,
+    "volume": 343078.24950399983,
+    "tradecount": 199,
+    "uniqueusers": 14
+  },
+  {
+    "date": "20250305",
+    "revenue": 38.90364399999995,
+    "volume": 194518.66371100015,
+    "tradecount": 187,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250306",
+    "revenue": 57.28629200000001,
+    "volume": 286431.7381599999,
+    "tradecount": 118,
+    "uniqueusers": 13
+  },
+  {
+    "date": "20250307",
+    "revenue": 18.680317,
+    "volume": 93401.710647,
+    "tradecount": 60,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250308",
+    "revenue": 4.912838,
+    "volume": 24564.27125199999,
+    "tradecount": 38,
+    "uniqueusers": 9
+  },
+  {
+    "date": "20250309",
+    "revenue": 8.583602,
+    "volume": 42918.15883999999,
+    "tradecount": 61,
+    "uniqueusers": 7
+  },
+  {
+    "date": "20250310",
+    "revenue": 368.1901450000002,
+    "volume": 1840951.0121100005,
+    "tradecount": 137,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250311",
+    "revenue": 149.50730400000018,
+    "volume": 747536.9406030002,
+    "tradecount": 185,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250312",
+    "revenue": 115.0246,
+    "volume": 575123.4071000004,
+    "tradecount": 181,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250313",
+    "revenue": 6.937234000000001,
+    "volume": 34686.39524999999,
+    "tradecount": 84,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250314",
+    "revenue": 26.19684299999999,
+    "volume": 130984.46501900002,
+    "tradecount": 110,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250315",
+    "revenue": 10.459544999999997,
+    "volume": 52297.93263199999,
+    "tradecount": 86,
+    "uniqueusers": 13
+  },
+  {
+    "date": "20250316",
+    "revenue": 5.987226,
+    "volume": 29936.263627,
+    "tradecount": 54,
+    "uniqueusers": 9
+  },
+  {
+    "date": "20250317",
+    "revenue": 3.199631,
+    "volume": 15998.224837,
+    "tradecount": 36,
+    "uniqueusers": 10
+  },
+  {
+    "date": "20250318",
+    "revenue": 29.632524999999998,
+    "volume": 148166.16894099998,
+    "tradecount": 80,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250319",
+    "revenue": 13.058826999999999,
+    "volume": 65294.30467,
+    "tradecount": 78,
+    "uniqueusers": 14
+  },
+  {
+    "date": "20250320",
+    "revenue": 2.3772649999999995,
+    "volume": 11867.813700000002,
+    "tradecount": 61,
+    "uniqueusers": 9
+  },
+  {
+    "date": "20250321",
+    "revenue": 1.5853410000000001,
+    "volume": 7930.02432776,
+    "tradecount": 39,
+    "uniqueusers": 10
+  },
+  {
+    "date": "20250322",
+    "revenue": 5.398243999999999,
+    "volume": 27010.127884,
+    "tradecount": 47,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250323",
+    "revenue": 12.946779000000001,
+    "volume": 64744.070887,
+    "tradecount": 27,
+    "uniqueusers": 7
+  },
+  {
+    "date": "20250324",
+    "revenue": 143.15590300000002,
+    "volume": 715801.8698780002,
+    "tradecount": 95,
+    "uniqueusers": 10
+  },
+  {
+    "date": "20250325",
+    "revenue": 32.550051,
+    "volume": 162886.35731251998,
+    "tradecount": 84,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250326",
+    "revenue": 52.01820699999999,
+    "volume": 260343.7696339997,
+    "tradecount": 256,
+    "uniqueusers": 10
+  },
+  {
+    "date": "20250327",
+    "revenue": 11.575214999999995,
+    "volume": 57557.45382694001,
+    "tradecount": 106,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250328",
+    "revenue": 4.3083610000000006,
+    "volume": 22594.413481399995,
+    "tradecount": 104,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250329",
+    "revenue": 4.4605049999999995,
+    "volume": 22548.711342129995,
+    "tradecount": 83,
+    "uniqueusers": 14
+  },
+  {
+    "date": "20250330",
+    "revenue": 2.6924200000000003,
+    "volume": 13597.252504,
+    "tradecount": 33,
+    "uniqueusers": 6
+  },
+  {
+    "date": "20250331",
+    "revenue": 8.819210000000002,
+    "volume": 43990.63468399998,
+    "tradecount": 58,
+    "uniqueusers": 11
+  },
+  {
+    "date": "20250401",
+    "revenue": 39.377686000000004,
+    "volume": 197041.36362900003,
+    "tradecount": 133,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250402",
+    "revenue": 37.17099899999998,
+    "volume": 184720.67353728987,
+    "tradecount": 232,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250403",
+    "revenue": 32.585711999999994,
+    "volume": 163175.80666799992,
+    "tradecount": 242,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250404",
+    "revenue": 41.95052500000001,
+    "volume": 209804.42258600012,
+    "tradecount": 130,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250405",
+    "revenue": 18.160612000000004,
+    "volume": 90829.810477,
+    "tradecount": 113,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250406",
+    "revenue": 35.26197800000001,
+    "volume": 176335.79175600005,
+    "tradecount": 137,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250407",
+    "revenue": 57.52645799999995,
+    "volume": 287775.44237599894,
+    "tradecount": 384,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250408",
+    "revenue": 150.72377299999994,
+    "volume": 753420.5299289997,
+    "tradecount": 183,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250409",
+    "revenue": 179.57010500000004,
+    "volume": 897968.637484,
+    "tradecount": 203,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250410",
+    "revenue": 81.29112799999996,
+    "volume": 406601.448234,
+    "tradecount": 161,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250411",
+    "revenue": 25.84612400000003,
+    "volume": 132821.81976699992,
+    "tradecount": 218,
+    "uniqueusers": 22
+  },
+  {
+    "date": "20250412",
+    "revenue": 58.136827999999966,
+    "volume": 290291.4763899999,
+    "tradecount": 217,
+    "uniqueusers": 20
+  },
+  {
+    "date": "20250413",
+    "revenue": 61.10197199999998,
+    "volume": 305331.9752899998,
+    "tradecount": 222,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250414",
+    "revenue": 55.52040199999998,
+    "volume": 277836.82491151005,
+    "tradecount": 246,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250415",
+    "revenue": 85.60628099999995,
+    "volume": 423733.33262900024,
+    "tradecount": 312,
+    "uniqueusers": 25
+  },
+  {
+    "date": "20250416",
+    "revenue": 74.12379700000001,
+    "volume": 370527.02119135996,
+    "tradecount": 185,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250417",
+    "revenue": 40.699403000000004,
+    "volume": 204001.67309463993,
+    "tradecount": 117,
+    "uniqueusers": 14
+  },
+  {
+    "date": "20250418",
+    "revenue": 22.82508899999999,
+    "volume": 113177.98137439002,
+    "tradecount": 134,
+    "uniqueusers": 20
+  },
+  {
+    "date": "20250419",
+    "revenue": 67.78998899999999,
+    "volume": 338980.7246419999,
+    "tradecount": 200,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250420",
+    "revenue": 40.502604999999996,
+    "volume": 202504.40129700003,
+    "tradecount": 99,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250421",
+    "revenue": 183.49543599999987,
+    "volume": 917310.6531309996,
+    "tradecount": 159,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250422",
+    "revenue": 133.12291399999992,
+    "volume": 670610.0018857602,
+    "tradecount": 302,
+    "uniqueusers": 21
+  },
+  {
+    "date": "20250423",
+    "revenue": 247.64613499999984,
+    "volume": 1238499.9191769992,
+    "tradecount": 534,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250424",
+    "revenue": 87.24151,
+    "volume": 440971.579477,
+    "tradecount": 210,
+    "uniqueusers": 26
+  },
+  {
+    "date": "20250425",
+    "revenue": 70.11489999999996,
+    "volume": 382511.42853999976,
+    "tradecount": 206,
+    "uniqueusers": 24
+  },
+  {
+    "date": "20250426",
+    "revenue": 24.916572000000002,
+    "volume": 123820.59573200002,
+    "tradecount": 68,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250427",
+    "revenue": 27.323809999999995,
+    "volume": 137116.01334999996,
+    "tradecount": 83,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250428",
+    "revenue": 68.045282,
+    "volume": 277024.8330494899,
+    "tradecount": 126,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250429",
+    "revenue": 26.117883999999997,
+    "volume": 107742.82609274,
+    "tradecount": 187,
+    "uniqueusers": 16
+  },
+  {
+    "date": "20250430",
+    "revenue": 62.190538,
+    "volume": 301569.082881,
+    "tradecount": 144,
+    "uniqueusers": 14
+  },
+  {
+    "date": "20250501",
+    "revenue": 53.412568,
+    "volume": 232196.73209900013,
+    "tradecount": 173,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250502",
+    "revenue": 81.17807799999996,
+    "volume": 397573.83572199993,
+    "tradecount": 279,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250503",
+    "revenue": 17.744950000000003,
+    "volume": 87744.82536740002,
+    "tradecount": 130,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250504",
+    "revenue": 12.25848,
+    "volume": 53877.5847,
+    "tradecount": 67,
+    "uniqueusers": 9
+  },
+  {
+    "date": "20250505",
+    "revenue": 7.023041000000002,
+    "volume": 55823.94196870001,
+    "tradecount": 70,
+    "uniqueusers": 12
+  },
+  {
+    "date": "20250506",
+    "revenue": 42.261643,
+    "volume": 202006.16780908997,
+    "tradecount": 270,
+    "uniqueusers": 18
+  },
+  {
+    "date": "20250507",
+    "revenue": 105.74762700000005,
+    "volume": 546827.84300247,
+    "tradecount": 413,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250508",
+    "revenue": 125.129864,
+    "volume": 610446.2123670001,
+    "tradecount": 402,
+    "uniqueusers": 24
+  },
+  {
+    "date": "20250509",
+    "revenue": 31.229106999999996,
+    "volume": 155614.494343,
+    "tradecount": 154,
+    "uniqueusers": 22
+  },
+  {
+    "date": "20250510",
+    "revenue": 25.594175000000007,
+    "volume": 129055.14390399998,
+    "tradecount": 137,
+    "uniqueusers": 20
+  },
+  {
+    "date": "20250511",
+    "revenue": 42.02951399999999,
+    "volume": 201577.567577,
+    "tradecount": 82,
+    "uniqueusers": 15
+  },
+  {
+    "date": "20250512",
+    "revenue": 74.16316699999999,
+    "volume": 365557.15132799995,
+    "tradecount": 195,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250513",
+    "revenue": 111.65337700000003,
+    "volume": 548755.4041800001,
+    "tradecount": 188,
+    "uniqueusers": 17
+  },
+  {
+    "date": "20250514",
+    "revenue": 59.77275400000001,
+    "volume": 294037.01392999984,
+    "tradecount": 135,
+    "uniqueusers": 7
+  },
+  {
+    "date": "20250515",
+    "revenue": 55.491500999999964,
+    "volume": 182720.7549059999,
+    "tradecount": 252,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250516",
+    "revenue": 271.3007569999999,
+    "volume": 862696.7821300001,
+    "tradecount": 512,
+    "uniqueusers": 21
+  },
+  {
+    "date": "20250517",
+    "revenue": 143.26716199999984,
+    "volume": 407533.6440590002,
+    "tradecount": 363,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250518",
+    "revenue": 1062.3717619999995,
+    "volume": 4597765.2279440025,
+    "tradecount": 1234,
+    "uniqueusers": 29
+  },
+  {
+    "date": "20250519",
+    "revenue": 385.20396429999994,
+    "volume": 2825253.592762001,
+    "tradecount": 797,
+    "uniqueusers": 22
+  },
+  {
+    "date": "20250520",
+    "revenue": 458.9178905999997,
+    "volume": 4229154.976115001,
+    "tradecount": 953,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250521",
+    "revenue": 1346.9390651499998,
+    "volume": 11892840.41693671,
+    "tradecount": 1877,
+    "uniqueusers": 34
+  },
+  {
+    "date": "20250522",
+    "revenue": 1132.1031873400018,
+    "volume": 10078606.211949492,
+    "tradecount": 2314,
+    "uniqueusers": 35
+  },
+  {
+    "date": "20250523",
+    "revenue": 663.5803118199972,
+    "volume": 5830773.508484244,
+    "tradecount": 1368,
+    "uniqueusers": 42
+  },
+  {
+    "date": "20250524",
+    "revenue": 86.15531906999993,
+    "volume": 357807.29534765985,
+    "tradecount": 250,
+    "uniqueusers": 22
+  },
+  {
+    "date": "20250525",
+    "revenue": 161.71684743000014,
+    "volume": 954749.64369787,
+    "tradecount": 1024,
+    "uniqueusers": 30
+  },
+  {
+    "date": "20250526",
+    "revenue": 251.91399548999962,
+    "volume": 1244817.0613161598,
+    "tradecount": 791,
+    "uniqueusers": 33
+  },
+  {
+    "date": "20250527",
+    "revenue": 267.34897197999953,
+    "volume": 1442223.4013992185,
+    "tradecount": 842,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250528",
+    "revenue": 214.27174539999984,
+    "volume": 1069530.4020350801,
+    "tradecount": 586,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250529",
+    "revenue": 685.2703189699987,
+    "volume": 4489134.090895213,
+    "tradecount": 1052,
+    "uniqueusers": 33
+  },
+  {
+    "date": "20250530",
+    "revenue": 85.24849599999997,
+    "volume": 513194.4837959999,
+    "tradecount": 356,
+    "uniqueusers": 35
+  },
+  {
+    "date": "20250531",
+    "revenue": 233.01510062999998,
+    "volume": 1298755.1702462998,
+    "tradecount": 424,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250601",
+    "revenue": 140.27566069000008,
+    "volume": 572674.6829416003,
+    "tradecount": 252,
+    "uniqueusers": 24
+  },
+  {
+    "date": "20250602",
+    "revenue": 76.76307363000001,
+    "volume": 410583.6139026997,
+    "tradecount": 491,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250603",
+    "revenue": 87.56593661000002,
+    "volume": 449137.04405599955,
+    "tradecount": 340,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250604",
+    "revenue": 137.69373350999976,
+    "volume": 671374.256844,
+    "tradecount": 338,
+    "uniqueusers": 27
+  },
+  {
+    "date": "20250605",
+    "revenue": 203.54142256999995,
+    "volume": 963512.3593674301,
+    "tradecount": 378,
+    "uniqueusers": 33
+  },
+  {
+    "date": "20250606",
+    "revenue": 231.57868645999955,
+    "volume": 1150012.150335579,
+    "tradecount": 929,
+    "uniqueusers": 34
+  },
+  {
+    "date": "20250607",
+    "revenue": 85.09453133,
+    "volume": 446681.15814685007,
+    "tradecount": 319,
+    "uniqueusers": 21
+  },
+  {
+    "date": "20250608",
+    "revenue": 21.84851561,
+    "volume": 127670.22391962002,
+    "tradecount": 189,
+    "uniqueusers": 20
+  },
+  {
+    "date": "20250609",
+    "revenue": 110.63215300000002,
+    "volume": 511314.96296908014,
+    "tradecount": 248,
+    "uniqueusers": 29
+  },
+  {
+    "date": "20250610",
+    "revenue": 160.89855710000012,
+    "volume": 793265.3256517403,
+    "tradecount": 384,
+    "uniqueusers": 34
+  },
+  {
+    "date": "20250611",
+    "revenue": 268.3214187200002,
+    "volume": 1252744.9442858999,
+    "tradecount": 522,
+    "uniqueusers": 26
+  },
+  {
+    "date": "20250612",
+    "revenue": 300.35232996000013,
+    "volume": 1431518.4969680393,
+    "tradecount": 352,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250613",
+    "revenue": 235.4495985199996,
+    "volume": 1134124.729131861,
+    "tradecount": 563,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250614",
+    "revenue": 46.38111669000001,
+    "volume": 217752.7771490499,
+    "tradecount": 117,
+    "uniqueusers": 21
+  },
+  {
+    "date": "20250615",
+    "revenue": 66.63894165999997,
+    "volume": 290462.55877999973,
+    "tradecount": 256,
+    "uniqueusers": 19
+  },
+  {
+    "date": "20250616",
+    "revenue": 150.87875982000014,
+    "volume": 717553.7658902805,
+    "tradecount": 363,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250617",
+    "revenue": 433.8252543400002,
+    "volume": 2230825.5320327403,
+    "tradecount": 773,
+    "uniqueusers": 31
+  },
+  {
+    "date": "20250618",
+    "revenue": 162.56533177999984,
+    "volume": 1399423.6769212892,
+    "tradecount": 453,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250619",
+    "revenue": 48.7830753,
+    "volume": 232165.04173999993,
+    "tradecount": 153,
+    "uniqueusers": 22
+  },
+  {
+    "date": "20250620",
+    "revenue": 126.40727519000001,
+    "volume": 562373.4223929201,
+    "tradecount": 431,
+    "uniqueusers": 27
+  },
+  {
+    "date": "20250621",
+    "revenue": 275.8754858900002,
+    "volume": 1444634.3802710997,
+    "tradecount": 938,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250622",
+    "revenue": 199.8881240000001,
+    "volume": 1286921.368456997,
+    "tradecount": 530,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250623",
+    "revenue": 164.61549599999998,
+    "volume": 847458.9711980006,
+    "tradecount": 323,
+    "uniqueusers": 23
+  },
+  {
+    "date": "20250624",
+    "revenue": 95.29951055,
+    "volume": 439836.519979,
+    "tradecount": 167,
+    "uniqueusers": 27
+  },
+  {
+    "date": "20250625",
+    "revenue": 92.96649399999998,
+    "volume": 402253.38184700004,
+    "tradecount": 305,
+    "uniqueusers": 37
+  },
+  {
+    "date": "20250626",
+    "revenue": 197.81820799999983,
+    "volume": 701509.9296140006,
+    "tradecount": 533,
+    "uniqueusers": 37
+  },
+  {
+    "date": "20250627",
+    "revenue": 185.14586524000006,
+    "volume": 678310.99115117,
+    "tradecount": 584,
+    "uniqueusers": 29
+  },
+  {
+    "date": "20250628",
+    "revenue": 72.10572960000003,
+    "volume": 275168.31073700025,
+    "tradecount": 327,
+    "uniqueusers": 29
+  },
+  {
+    "date": "20250629",
+    "revenue": 188.89186273999997,
+    "volume": 621150.5393509999,
+    "tradecount": 419,
+    "uniqueusers": 33
+  },
+  {
+    "date": "20250630",
+    "revenue": 229.9303274199997,
+    "volume": 878312.5173239991,
+    "tradecount": 755,
+    "uniqueusers": 41
+  },
+  {
+    "date": "20250701",
+    "revenue": 142.64216158999997,
+    "volume": 697555.9087338799,
+    "tradecount": 654,
+    "uniqueusers": 32
+  },
+  {
+    "date": "20250702",
+    "revenue": 169.8661959799999,
+    "volume": 839693.9914079994,
+    "tradecount": 790,
+    "uniqueusers": 36
+  },
+  {
+    "date": "20250703",
+    "revenue": 333.6427674799999,
+    "volume": 1640250.2392849997,
+    "tradecount": 912,
+    "uniqueusers": 38
+  },
+  {
+    "date": "20250704",
+    "revenue": 145.913875,
+    "volume": 713320.3541180006,
+    "tradecount": 460,
+    "uniqueusers": 40
+  },
+  {
+    "date": "20250705",
+    "revenue": 27.852802130000004,
+    "volume": 123198.255398,
+    "tradecount": 145,
+    "uniqueusers": 21
+  },
+  {
+    "date": "20250706",
+    "revenue": 103.45211800000003,
+    "volume": 501060.76783900015,
+    "tradecount": 222,
+    "uniqueusers": 28
+  },
+  {
+    "date": "20250707",
+    "revenue": 115.47233543000009,
+    "volume": 545107.5405919002,
+    "tradecount": 637,
+    "uniqueusers": 39
+  },
+  {
+    "date": "20250708",
+    "revenue": 100.97346512000004,
+    "volume": 485978.77660800045,
+    "tradecount": 434,
+    "uniqueusers": 29
+  },
+  {
+    "date": "20250709",
+    "revenue": 181.79677540000012,
+    "volume": 828589.7061400011,
+    "tradecount": 777,
+    "uniqueusers": 45
+  },
+  {
+    "date": "20250710",
+    "revenue": 376.97039662000066,
+    "volume": 1604007.8651060022,
+    "tradecount": 1070,
+    "uniqueusers": 57
+  },
+  {
+    "date": "20250711",
+    "revenue": 342.22867838999946,
+    "volume": 1572537.1875991598,
+    "tradecount": 824,
+    "uniqueusers": 52
+  },
+  {
+    "date": "20250712",
+    "revenue": 179.07886891000035,
+    "volume": 789705.5006209998,
+    "tradecount": 594,
+    "uniqueusers": 45
+  },
+  {
+    "date": "20250713",
+    "revenue": 344.74128821,
+    "volume": 1333574.7788709998,
+    "tradecount": 766,
+    "uniqueusers": 45
+  },
+  {
+    "date": "20250714",
+    "revenue": 811.6591812,
+    "volume": 3925216.675601001,
+    "tradecount": 1310,
+    "uniqueusers": 56
+  },
+  {
+    "date": "20250715",
+    "revenue": 1034.0335109999985,
+    "volume": 7640070.0678179925,
+    "tradecount": 999,
+    "uniqueusers": 49
+  },
+  {
+    "date": "20250716",
+    "revenue": 969.7488535500016,
+    "volume": 3857113.2319220034,
+    "tradecount": 1109,
+    "uniqueusers": 81
+  },
+  {
+    "date": "20250717",
+    "revenue": 2055.571163290006,
+    "volume": 8885248.435989002,
+    "tradecount": 2469,
+    "uniqueusers": 114
+  },
+  {
+    "date": "20250718",
+    "revenue": 1521.245890999999,
+    "volume": 9593056.161402589,
+    "tradecount": 2008,
+    "uniqueusers": 113
+  },
+  {
+    "date": "20250719",
+    "revenue": 849.3953190400048,
+    "volume": 3155253.318235054,
+    "tradecount": 1413,
+    "uniqueusers": 78
+  },
+  {
+    "date": "20250720",
+    "revenue": 1329.0820811300057,
+    "volume": 5481280.346828594,
+    "tradecount": 2271,
+    "uniqueusers": 107
+  },
+  {
+    "date": "20250721",
+    "revenue": 1699.8036418499942,
+    "volume": 6848759.472133036,
+    "tradecount": 2431,
+    "uniqueusers": 113
+  },
+  {
+    "date": "20250722",
+    "revenue": 1526.6893140100003,
+    "volume": 6461347.401452097,
+    "tradecount": 1961,
+    "uniqueusers": 131
+  },
+  {
+    "date": "20250723",
+    "revenue": 1386.2587574199997,
+    "volume": 6174355.8618770065,
+    "tradecount": 2631,
+    "uniqueusers": 143
+  },
+  {
+    "date": "20250724",
+    "revenue": 10185.885617849975,
+    "volume": 36331709.30402385,
+    "tradecount": 9952,
+    "uniqueusers": 339
+  },
+  {
+    "date": "20250725",
+    "revenue": 6317.755306329988,
+    "volume": 23478152.245838214,
+    "tradecount": 8693,
+    "uniqueusers": 330
+  },
+  {
+    "date": "20250726",
+    "revenue": 4910.605482019976,
+    "volume": 19736930.141232915,
+    "tradecount": 6349,
+    "uniqueusers": 304
+  },
+  {
+    "date": "20250727",
+    "revenue": 7756.155202650003,
+    "volume": 30170340.69936464,
+    "tradecount": 8590,
+    "uniqueusers": 336
+  }
+]
