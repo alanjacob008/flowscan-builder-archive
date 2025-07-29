@@ -75,153 +75,127 @@ jobs:
           - builder: mass
             addr: '0xf944069B489F1ebfF4C3C6a6014d58cBEf7C7009'
             start: '2025-06-23'
-          # …add one block per builder…
 
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch & process data for ${{ matrix.builder }}
         run: |
-            set -e
-            NAME=${{ matrix.builder }}
-            ADDR="${{ matrix.addr }}"
-            ADDR=${ADDR,,}
-            START_DATE=${{ matrix.start }}
-            YEST=$(date -d "yesterday" +%Y-%m-%d)
-          
-            # Paths
-            DIR="data/$NAME"
-            FAIL="$DIR/failed_dates.json"
-            STORED="$DIR/stored_dates.json"
-            TMP_ALL="$DIR/_all.json"
-          
-            # Ensure all required files exist
-            mkdir -p "$DIR"
-            [[ -f "$FAIL" ]] || echo '[]' > "$FAIL"
-            [[ -f "$STORED" ]] || echo '[]' > "$STORED"
-          
-            echo '[]' > "$TMP_ALL"
-          
-            ##############################
-            # 1. Retry Failed Dates + New Dates
-            ##############################
-          
-            # Collect list of dates to fetch
-            FETCH_DATES=()
-          
-            # Add failed dates to retry
-            for d in $(jq -r '.[]' "$FAIL"); do
-              FETCH_DATES+=("$d")
-            done
-          
-            # Add new dates since last stored
-            current="$START_DATE"
-            while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
-              D=$(date -d "$current" +%Y%m%d)
-              if ! jq -e --arg d "$D" 'index($d)' "$STORED" >/dev/null; then
-                FETCH_DATES+=("$D")
-              fi
-              current=$(date -d "$current + 1 day" +%Y-%m-%d)
-            done
-          
-            echo "🗓️ Fetching ${#FETCH_DATES[@]} date(s) for $NAME"
-          
-            ##############################
-            # 2. Fetch Data Per Date
-            ##############################
-            for D in "${FETCH_DATES[@]}"; do
-              OUT="$DIR/$D.json"
-              echo "🌐 Fetching $D..."
-          
-              STATUS=$(curl -sS -w '%{http_code}' -o tmp_raw.json \
-                -H "Accept: application/json, text/plain, */*" \
-                -H "Accept-Language: en-US,en;q=0.9" \
-                -H "Cache-Control: no-cache" \
-                -H "Pragma: no-cache" \
-                -H "Referer: https://www.flowscan.xyz/builders?builder=$NAME" \
-                -H "Origin: https://www.flowscan.xyz" \
-                -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" \
-                "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
-          
-              echo "↩️ Status $STATUS"
-          
-              if [ "$STATUS" = "200" ] && ! jq -e 'has("error")' tmp_raw.json >/dev/null; then
-                mv tmp_raw.json "$OUT"
-                echo "✅ Success: $D"
-                # Update stored dates
-                jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$STORED" > tmp && mv tmp "$STORED"
-                jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
-              else
-                echo "❌ Failed: $D"
-                rm -f tmp_raw.json "$OUT"
-                jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
-              fi
-          
-              sleep 1
-            done
-          
-            ##############################
-            # 3. Build daily_summary.json
-            ##############################
-            if ls $DIR/[0-9]*.json 1> /dev/null 2>&1; then
-              jq -n '[ inputs
-                | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
-                    revenue: .revenue,
-                    volume:  .volume,
-                    tradecount: .count,
-                    users: .uniqueUsers }
-              ]' $DIR/[0-9]*.json > $DIR/daily_summary.json
+          set -e
+          NAME=${{ matrix.builder }}
+          ADDR="${{ matrix.addr }}"
+          ADDR=${ADDR,,}
+          START_DATE=${{ matrix.start }}
+          YEST=$(date -d "yesterday" +%Y-%m-%d)
+
+          DIR="data/$NAME"
+          FAIL="$DIR/failed_dates.json"
+          STORED="$DIR/stored_dates.json"
+          TMP_ALL="$DIR/_all.json"
+
+          mkdir -p "$DIR"
+          [[ -f "$FAIL" ]] || echo '[]' > "$FAIL"
+          [[ -f "$STORED" ]] || echo '[]' > "$STORED"
+          echo '[]' > "$TMP_ALL"
+
+          FETCH_DATES=()
+
+          for d in $(jq -r '.[]' "$FAIL"); do
+            FETCH_DATES+=("$d")
+          done
+
+          current="$START_DATE"
+          while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
+            D=$(date -d "$current" +%Y%m%d)
+            if ! jq -e --arg d "$D" 'index($d)' "$STORED" >/dev/null; then
+              FETCH_DATES+=("$D")
+            fi
+            current=$(date -d "$current + 1 day" +%Y-%m-%d)
+          done
+
+          echo "🗓️ Fetching ${#FETCH_DATES[@]} date(s) for $NAME"
+
+          for D in "${FETCH_DATES[@]}"; do
+            OUT="$DIR/$D.json"
+            echo "🌐 Fetching $D..."
+
+            STATUS=$(curl -sS -w '%{http_code}' -o tmp_raw.json \
+              -H "Accept: application/json, text/plain, */*" \
+              -H "Accept-Language: en-US,en;q=0.9" \
+              -H "Cache-Control: no-cache" \
+              -H "Pragma: no-cache" \
+              -H "Referer: https://www.flowscan.xyz/builders?builder=$NAME" \
+              -H "Origin: https://www.flowscan.xyz" \
+              -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" \
+              "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+
+            echo "↩️ Status $STATUS"
+
+            if [ "$STATUS" = "200" ] && ! jq -e 'has("error")' tmp_raw.json >/dev/null; then
+              mv tmp_raw.json "$OUT"
+              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$STORED" > tmp && mv tmp "$STORED"
+              jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
+              echo "✅ Success: $D"
             else
-              echo '[]' > $DIR/daily_summary.json
+              rm -f tmp_raw.json "$OUT"
+              jq --arg d "$D" 'if index($d)==null then . + [$d] else . end' "$FAIL" > tmp && mv tmp "$FAIL"
+              echo "❌ Failed: $D"
             fi
-          
-            ##############################
-            # 4. Build user_data_0001+.json (chunked)
-            ##############################
-            if ls $DIR/[0-9]*.json 1> /dev/null 2>&1; then
-              TMP="$DIR/_all.json"
-              echo '[]' > "$TMP"
-              for f in $DIR/[0-9]*.json; do
-                dt=${f##*/}; dt=${dt%.json}
-                jq --arg date "$dt" '[ .userAggregations[] | . + {date:$date} ]' "$f" > tmp1
-                jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
-              done
-          
-              # Cleanup old chunks
-              rm -f $DIR/user_data_*.json
-          
-              jq '[.[]] | group_by(.user) | map({
-                   user_address: .[0].user,
-                   total_builder_fee_usd: (map(.builder_fee)|add),
-                   total_volume: (map(.total_volume)|add),
-                   total_trades: (map(.count)|add),
-                   active_days: (map(select(.count>0)|.date)|unique|length)
-                 })' "$TMP" > tmp_users.json
-          
-              # Always chunk user data
-              TOTAL=$(jq length tmp_users.json)
-              CHUNK=5000; CNT=1
-              while [ $(( (CNT-1)*CHUNK )) -lt $TOTAL ]; do
-                S=$(( (CNT-1)*CHUNK )) ; E=$((S+CHUNK))
-                IDX=$(printf "%04d" $CNT)
-                jq ".[$S:$E]" tmp_users.json > "$DIR/user_data_$IDX.json"
-                CNT=$((CNT+1))
-              done
-              rm tmp1 tmp_users.json "$TMP"
-            fi
-          
-            ##############################
-            # 5. Inject unique_users into daily_summary.json
-            ##############################
-            if ls $DIR/user_data_*.json 1> /dev/null 2>&1; then
-              TOTAL_USERS=$(jq -s '[.[][] | .user_address] | unique | length' $DIR/user_data_*.json)
-              jq --argjson uu "$TOTAL_USERS" 'map(. + {unique_users: $uu})' $DIR/daily_summary.json > tmp && mv tmp $DIR/daily_summary.json
-            fi
-          
-            ##############################
-            # 6. Git Commit (if changes)
-            ##############################
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git stash push --include-untracked --quiet || true
-            git pull --rebase origin main
-            git stash pop --quiet || true
-            git add $DIR
-            git diff --quiet --cached || \
-              (git commit -m "Update $NAME for $(date -d 'yesterday' +%Y%m%d)" && git push)
+            sleep 1
+          done
+
+          if ls $DIR/[0-9]*.json 1> /dev/null 2>&1; then
+            jq -n '[ inputs
+              | { date: (input_filename | capture(".*/(?<d>[0-9]{8})\\.json$").d),
+                  revenue: .revenue,
+                  volume:  .volume,
+                  tradecount: .count,
+                  users: .uniqueUsers }
+            ]' $DIR/[0-9]*.json > $DIR/daily_summary.json
+          else
+            echo '[]' > $DIR/daily_summary.json
+          fi
+
+          if ls $DIR/[0-9]*.json 1> /dev/null 2>&1; then
+            TMP="$DIR/_all.json"
+            echo '[]' > "$TMP"
+            for f in $DIR/[0-9]*.json; do
+              dt=${f##*/}; dt=${dt%.json}
+              jq --arg date "$dt" '[ .userAggregations[] | . + {date:$date} ]' "$f" > tmp1
+              jq -s '.[0] + .[1]' "$TMP" tmp1 > tmp2 && mv tmp2 "$TMP"
+            done
+
+            rm -f $DIR/user_data_*.json
+
+            jq '[.[]] | group_by(.user) | map({
+              user_address: .[0].user,
+              total_builder_fee_usd: (map(.builder_fee)|add),
+              total_volume: (map(.total_volume)|add),
+              total_trades: (map(.count)|add),
+              active_days: (map(select(.count>0)|.date)|unique|length)
+            })' "$TMP" > tmp_users.json
+
+            TOTAL=$(jq length tmp_users.json)
+            CHUNK=5000; CNT=1
+            while [ $(( (CNT-1)*CHUNK )) -lt $TOTAL ]; do
+              S=$(( (CNT-1)*CHUNK )) ; E=$((S+CHUNK))
+              IDX=$(printf "%04d" $CNT)
+              jq ".[$S:$E]" tmp_users.json > "$DIR/user_data_$IDX.json"
+              CNT=$((CNT+1))
+            done
+            rm tmp1 tmp_users.json "$TMP"
+          fi
+
+          if ls $DIR/user_data_*.json 1> /dev/null 2>&1; then
+            TOTAL_USERS=$(jq -s '[.[][] | .user_address] | unique | length' $DIR/user_data_*.json)
+            jq --argjson uu "$TOTAL_USERS" 'map(. + {unique_users: $uu})' $DIR/daily_summary.json > tmp && mv tmp $DIR/daily_summary.json
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git stash push --include-untracked --quiet || true
+          git pull --rebase origin main
+          git stash pop --quiet || true
+          git add $DIR
+          git diff --quiet --cached || \
+            (git commit -m "Update $NAME for $(date -d 'yesterday' +%Y%m%d)" && git push)
