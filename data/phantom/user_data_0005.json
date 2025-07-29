@@ -1,0 +1,23 @@
+[
+  {
+    "user_address": "0xfff0af2fe6cca3952f5b1648c07d5ed720b8a653",
+    "total_builder_fee_usd": 0.50342,
+    "total_volume": 1006.84438,
+    "total_trades": 4,
+    "active_days": 3
+  },
+  {
+    "user_address": "0xfff2fad8f6102c4c4bbec167fc4ad97dc7589660",
+    "total_builder_fee_usd": 24.632700999999997,
+    "total_volume": 49265.50430600001,
+    "total_trades": 101,
+    "active_days": 10
+  },
+  {
+    "user_address": "0xfff51eae2a0314f76b275bcc90eb12fe3d1a8ced",
+    "total_builder_fee_usd": 1.895664,
+    "total_volume": 3791.34543,
+    "total_trades": 17,
+    "active_days": 7
+  }
+]
