@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Gather all daily_summary.json files
+      - name: Combine all daily_summary.json files
         run: |
           set -e
 
@@ -26,28 +26,31 @@ jobs:
 
           TMPDIR=$(mktemp -d)
 
-          # for each builder folder under data/, if daily_summary exists:
+          echo "🔍 Gathering daily_summary.json files..."
+
+          # Loop through all builder folders
           for ds in data/*/daily_summary.json; do
             [ -f "$ds" ] || continue
-            # extract builder name from path, e.g. data/pvp_dot_trade/...
             builder=$(basename "$(dirname "$ds")")
-            # produce a small JSON array with builder field
-            jq --arg b "$builder" '
-              [ .[] | . + { builder: $b } ]
-            ' "$ds" > "$TMPDIR/${builder}.json"
+
+            echo "📦 Processing $builder"
+
+            # Append builder field to each entry
+            jq --arg b "$builder" '[ .[] | . + { builder: $b } ]' "$ds" > "$TMPDIR/${builder}.json"
           done
 
-          # now slurp all into one big array
-          jq -s 'add' "$TMPDIR"/*.json > "$OUT_FILE"
+          echo "🧩 Combining and sorting..."
 
-          # clean up
+          # Merge and sort: date ascending, builder name ascending
+          jq -s 'add | sort_by(.date, .builder)' "$TMPDIR"/*.json > "$OUT_FILE"
+
           rm -rf "$TMPDIR"
 
       - name: Commit combined file
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # stash/pull/re‑apply to avoid conflicts
+
           git stash push --include-untracked --quiet || true
           git pull --rebase origin main
           git stash pop --quiet || true
