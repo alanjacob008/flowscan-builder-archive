@@ -106,11 +106,21 @@ jobs:
           while [ "$(date -d "$current" +%Y-%m-%d)" != "$(date -d "$YEST + 1 day" +%Y-%m-%d)" ]; do
             D=$(date -d "$current" +%Y%m%d)
             OUT="data/$NAME/$D.json"
-
+          
             if [ -f "$OUT" ]; then
               echo "⏭ Skipping $NAME/$D (already exists)"
             else
-              RAW=$(curl -s -H "Cookie: __clerk_db_jwt=${{ secrets.FLOWSCAN_JWT }}" "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+              echo "🌐 Fetching $NAME/$D"
+              RAW=$(curl -sSL \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Accept-Language: en-US,en;q=0.9" \
+                -H "Cache-Control: no-cache" \
+                -H "Pragma: no-cache" \
+                -H "Referer: https://www.flowscan.xyz/builders?builder=$NAME" \
+                -H "Origin: https://www.flowscan.xyz" \
+                -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" \
+                "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+          
               if echo "$RAW" | jq -e 'has("error")' >/dev/null; then
                 echo "❌ API error for $NAME/$D"
                 rm -f "$OUT"
@@ -119,8 +129,10 @@ jobs:
                 echo "$RAW" > "$OUT"
                 jq --arg d "$D" 'map(select(. != $d))' "$FAIL" > tmp && mv tmp "$FAIL"
               fi
+          
+              sleep 1  # 🕐 Rate limit: wait 1 second between requests
             fi
-
+          
             current=$(date -d "$current + 1 day" +%Y-%m-%d)
           done
 
