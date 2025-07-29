@@ -14,39 +14,58 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Combine all daily_summary.json files
+      - name: Combine all daily_summary files + extract unique_users
         run: |
           set -e
 
           OUT_DIR="data/combined"
-          OUT_FILE="$OUT_DIR/daily_summary_all.json"
+          OUT_SUMMARY="$OUT_DIR/daily_summary_all.json"
+          OUT_UNIQUES="$OUT_DIR/unique_users_by_date.json"
+          TMPDIR=$(mktemp -d)
+          TODAY=$(date -u +%Y%m%d)
 
           mkdir -p "$OUT_DIR"
-          rm -f "$OUT_FILE"
+          rm -f "$OUT_SUMMARY"
 
-          TMPDIR=$(mktemp -d)
+          echo "🔍 Collecting daily_summary.json from builders..."
 
-          echo "🔍 Gathering daily_summary.json files..."
-
-          # Loop through all builder folders
           for ds in data/*/daily_summary.json; do
             [ -f "$ds" ] || continue
             builder=$(basename "$(dirname "$ds")")
 
-            echo "📦 Processing $builder"
-
-            # Append builder field to each entry
+            # Append builder field to each summary entry
             jq --arg b "$builder" '[ .[] | . + { builder: $b } ]' "$ds" > "$TMPDIR/${builder}.json"
           done
 
-          echo "🧩 Combining and sorting..."
+          echo "🧩 Merging and sorting daily summary..."
+          jq -s 'add | sort_by(.date, .builder)' "$TMPDIR"/*.json > "$OUT_SUMMARY"
 
-          # Merge and sort: date ascending, builder name ascending
-          jq -s 'add | sort_by(.date, .builder)' "$TMPDIR"/*.json > "$OUT_FILE"
+          echo "🧮 Extracting unique user counts for today..."
+          TMP_UU="$TMPDIR/uu.json"
+          echo '{ "date": "'"$TODAY"'", "builders": {} }' > "$TMP_UU"
+
+          for ud in data/*/user_data_*.json; do
+            [ -f "$ud" ] || continue
+            builder=$(basename "$(dirname "$ud")")
+
+            COUNT=$(jq '[.[] | .user_address] | unique | length' "$ud")
+            jq --arg builder "$builder" --argjson count "$COUNT" \
+              '.builders[$builder] = $count' "$TMP_UU" > tmp && mv tmp "$TMP_UU"
+          done
+
+          # Append or replace today's entry in unique_users_by_date.json
+          if [ -f "$OUT_UNIQUES" ]; then
+            jq --arg d "$TODAY" -s '
+              .[0] as $existing | .[1] as $new |
+              ($existing | map(select(.date != $d))) + [$new]
+            ' "$OUT_UNIQUES" "$TMP_UU" > tmp && mv tmp "$OUT_UNIQUES"
+          else
+            jq -s '.' "$TMP_UU" > "$OUT_UNIQUES"
+          fi
 
           rm -rf "$TMPDIR"
 
-      - name: Commit combined file
+      - name: Commit combined data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -56,5 +75,7 @@ jobs:
           git stash pop --quiet || true
 
           git add data/combined/daily_summary_all.json
+          git add data/combined/unique_users_by_date.json
+
           git diff --quiet --cached || \
-            (git commit -m "Update combined daily_summary (for $(date -d 'yesterday' +%Y%m%d))" && git push)
+            (git commit -m "Update combined summaries for $(date -d 'yesterday' +%Y%m%d)" && git push)
