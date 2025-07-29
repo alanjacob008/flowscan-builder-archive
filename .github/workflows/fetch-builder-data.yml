@@ -110,7 +110,7 @@ jobs:
             if [ -f "$OUT" ]; then
               echo "⏭ Skipping $NAME/$D (already exists)"
             else
-              RAW=$(curl -s "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
+              RAW=$(curl -s -H "Cookie: __clerk_db_jwt=${{ secrets.FLOWSCAN_JWT }}" "https://www.flowscan.xyz/api/builder-fills?builderAddress=$ADDR&date=$D")
               if echo "$RAW" | jq -e 'has("error")' >/dev/null; then
                 echo "❌ API error for $NAME/$D"
                 rm -f "$OUT"
