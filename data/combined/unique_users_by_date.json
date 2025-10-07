@@ -1748,5 +1748,30 @@
       "topdog": 262,
       "walletv": 79
     }
+  },
+  {
+    "date": "20251007",
+    "builders": {
+      "axiom": 4997,
+      "basedapp": 444,
+      "dexari": 851,
+      "dextrabot": 1906,
+      "gtr_trade": 16,
+      "hyperdash": 145,
+      "insilico": 726,
+      "kinto": 1200,
+      "liquid_perps": 152,
+      "lootbase": 1271,
+      "mass": 319,
+      "okto": 3345,
+      "pear_protocol": 222,
+      "phantom": 3,
+      "pocket_pro": 158,
+      "pvp_dot_trade": 2795,
+      "supercexy": 44,
+      "superx": 255,
+      "topdog": 262,
+      "walletv": 79
+    }
   }
 ]
